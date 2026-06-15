@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* CTA  */
+
+/* Left Gradient:
+#ff006e → #ff2f55 → #ff6b35
+
+Right Gradient:
+#1146b8 → #0b7fd3 → #12c6cf */
