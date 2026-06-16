@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 // SVG Icons
 const BloodIcon = () => (
@@ -45,6 +46,7 @@ const quickLinks = [
     subtitle: "रक्तदात्यांची यादी आणि माहिती",
     gradient: "linear-gradient(135deg, #7c3aed, #a855f7)",
     shadow: "rgba(124,58,237,0.35)",
+    link: "/blood-donation"
   },
   {
     icon: <HeartHandIcon />,
@@ -52,6 +54,7 @@ const quickLinks = [
     subtitle: "गरीब आणि गरजू लोकांना मदत करा",
     gradient: "linear-gradient(135deg, #16a34a, #4ade80)",
     shadow: "rgba(22,163,74,0.35)",
+    link: "/donate-poor",
   },
   {
     icon: <PhoneIcon />,
@@ -224,9 +227,9 @@ export default function Home() {
           {/* RIGHT — Quick Link Cards */}
           <div className="md:col-span-4 flex flex-col gap-3 order-3">
             {quickLinks.map((item, i) => (
-              <a
+              <Link
                 key={i}
-                href="#"
+                to={item.link || "#"}
                 className="flex items-center gap-4 rounded-2xl px-5 py-4 text-white transition-all duration-300 hover:scale-105 group cursor-pointer"
                 style={{
                   background: item.gradient,
@@ -252,7 +255,7 @@ export default function Home() {
                 <div className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all">
                   <ArrowRight />
                 </div>
-              </a>
+              </Link>
             ))}
           </div>
 

@@ -1,6 +1,9 @@
+import { Link } from 'react-router-dom'
+
 export default function Footer() {
   const usefulLinks = ['होम', 'आमच्याबद्दल', 'सेवा', 'उपक्रम', 'गॅलरी', 'बातम्या', 'संपर्क']
   const services = ['Blood Group', 'Donate Poor', 'VIP Numbers', 'Education Update', 'Labour Service', 'Sell/Buy', 'Marriage Topic', 'Nagarpalika Complaint']
+  const serviceLinks = { 'Blood Group': '/blood-donation', 'Donate Poor': '/donate-poor' }
 
   return (
     <footer className="bg-gray-900 text-gray-300">
@@ -45,7 +48,7 @@ export default function Footer() {
             <ul className="space-y-2">
               {services.map((s,i) => (
                 <li key={i}>
-                  <a href="#" className="text-gray-400 hover:text-orange-400 text-xs transition-colors">{s}</a>
+                  <Link to={serviceLinks[s] || '#'} className="text-gray-400 hover:text-orange-400 text-xs transition-colors">{s}</Link>
                 </li>
               ))}
             </ul>
