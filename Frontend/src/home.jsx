@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import businessImg from "./assets/business.png";
+import quranImg from "./assets/quran.webp";
 
-// SVG Icons
+// ---------- SVG Icons ----------
 const BloodIcon = () => (
   <svg viewBox="0 0 24 24" fill="currentColor" className="w-7 h-7" style={{ color: "#e91e8c" }}>
     <path d="M12 2C12 2 5 10.5 5 15a7 7 0 0 0 14 0C19 10.5 12 2 12 2z" />
@@ -39,20 +41,34 @@ const CallIcon = () => (
   </svg>
 );
 
+const PinIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 shrink-0">
+    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5A2.5 2.5 0 1 1 12 6.5a2.5 2.5 0 0 1 0 5z" />
+  </svg>
+);
+
+const CheckIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="w-4 h-4 shrink-0">
+    <path d="M5 13l4 4L19 7" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
 const quickLinks = [
   {
     icon: <BloodIcon />,
     title: "BLOOD GROUP",
     subtitle: "रक्तदात्यांची यादी आणि माहिती",
     gradient: "linear-gradient(135deg, #7c3aed, #a855f7)",
+    hoverGradient: "linear-gradient(135deg, #a855f7, #7c3aed)",
     shadow: "rgba(124,58,237,0.35)",
-    link: "/blood-donation"
+    link: "/blood-donation",
   },
   {
     icon: <HeartHandIcon />,
     title: "DONATE POOR",
     subtitle: "गरीब आणि गरजू लोकांना मदत करा",
     gradient: "linear-gradient(135deg, #16a34a, #4ade80)",
+    hoverGradient: "linear-gradient(135deg, #4ade80, #16a34a)",
     shadow: "rgba(22,163,74,0.35)",
     link: "/donate-poor",
   },
@@ -61,14 +77,18 @@ const quickLinks = [
     title: "VIP NUMBERS",
     subtitle: "महत्त्वाचे हेल्पलाईन क्रमांक एका क्लिकवर",
     gradient: "linear-gradient(135deg, #2563eb, #60a5fa)",
+    hoverGradient: "linear-gradient(135deg, #60a5fa, #2563eb)",
     shadow: "rgba(37,99,235,0.35)",
+    link: "/vip-numbers",
   },
   {
     icon: <GraduationIcon />,
     title: "EDUCATION UPDATE",
     subtitle: "शैक्षणिक अपडेट्स, शिष्यवृत्ती आणि नवीन माहिती",
     gradient: "linear-gradient(135deg, #ea580c, #fb923c)",
+    hoverGradient: "linear-gradient(135deg, #fb923c, #ea580c)",
     shadow: "rgba(234,88,12,0.35)",
+    link: "/education-update",
   },
 ];
 
@@ -79,16 +99,15 @@ export default function Home() {
       style={{ fontFamily: "'Noto Sans Devanagari', 'Mukta', 'Segoe UI', sans-serif" }}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 lg:py-16">
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-6 lg:gap-10 items-center">
-
-          {/* LEFT — Text Content */}
-          <div className="md:col-span-4 flex flex-col gap-5 justify-center order-1">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          {/* ============ LEFT — Text Content ============ */}
+          <div className="flex flex-col gap-5 justify-center order-1">
             <div>
-              <h1 className="text-5xl sm:text-6xl font-black text-gray-900 leading-tight">
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 leading-tight">
                 एकत्र येऊया,
               </h1>
               <h1
-                className="text-5xl sm:text-6xl font-black leading-tight"
+                className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight"
                 style={{ color: "#e91e8c" }}
               >
                 समाज घडवूया!
@@ -108,159 +127,295 @@ export default function Home() {
               />
             </div>
 
-            <p className="text-gray-700 leading-relaxed text-xl max-w-md  font-semibold ">
-              शिक्षण, आरोग्य, रोजगार, महिला सशक्तीकरण आणि <br /> सामाजिक एकतेसाठी आम्ही
-              कटिबद्ध आहोत. <br /> चला, एकत्र येऊन उज्ज्वल भविष्य घडवूया.
+            <p className="text-gray-700 leading-relaxed text-lg lg:text-xl max-w-md font-semibold">
+              शिक्षण, आरोग्य, रोजगार, महिला सशक्तीकरण आणि सामाजिक एकतेसाठी आम्ही
+              कटिबद्ध आहोत. चला, एकत्र येऊन उज्ज्वल भविष्य घडवूया.
             </p>
 
             <div className="flex flex-wrap gap-3 pt-1">
-              {/* Primary CTA */}
+              {/* Primary CTA — animated gradient shift on hover */}
               <button
-                className="flex items-center gap-2 text-white font-bold px-6 py-3 rounded-full transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 text-md"
-                style={{ background: "linear-gradient(135deg, #f97316, #e91e8c)" }}
+                className="cta-gradient flex items-center gap-2 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300 text-md"
               >
                 <CallIcon />
                 हेल्पलाईनशी संपर्क करा
               </button>
 
-              {/* Secondary CTA */}
-              <button
-                className="flex items-center gap-2 font-bold px-6 py-3 rounded-full transition-all duration-300 hover:bg-pink-50 text-md"
-                style={{ border: "2px solid #e91e8c", color: "#e91e8c" }}
-              >
-                सेवा एक्सप्लोर करा →
+              {/* Secondary CTA — fill slides in from left on hover */}
+              <button className="cta-outline relative overflow-hidden font-bold px-6 py-3 rounded-full text-md transition-colors duration-300">
+                <span className="relative z-10 flex items-center gap-2">
+                  सेवा एक्सप्लोर करा <ArrowRight />
+                </span>
               </button>
             </div>
           </div>
 
-          {/* CENTER — Mosque Image with Badge */}
-          <div className="md:col-span-4 flex justify-center items-center order-2 relative">
-            <div className="relative w-full max-w-sm">
-
-              {/* Image card */}
+          {/* ============ RIGHT — Two promo cards ============ */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 order-2 h-full">
+            {/* ---- Card 1: Professional Business Ad ---- */}
+            <div
+              className="promo-card relative overflow-hidden rounded-3xl shadow-xl flex-1"
+              style={{
+                background: "linear-gradient(160deg, #1e1b4b 0%, #1e2a6b 55%, #2d3a8c 100%)",
+                minHeight: "260px",
+              }}
+            >
+              {/* Background building image, faded into the gradient */}
               <div
-                className="relative overflow-hidden shadow-2xl"
-                style={{ borderRadius: "28px", aspectRatio: "1 / 1" }}
-              >
-                <img
-                  src="/mosque.png"
-                  alt="Illuminated mosque at dusk"
-                  className="w-full h-full object-cover"
-                  onError={(e) => {
-                    // Fallback gradient if image not found
-                    e.target.style.display = "none";
-                    e.target.parentElement.style.background =
-                      "linear-gradient(135deg, #1e0050 0%, #6d28d9 50%, #f97316 100%)";
-                  }}
-                />
-
-                {/* Bottom fade overlay */}
-                <div
-                  className="absolute inset-0 pointer-events-none"
-                  style={{
-                    background:
-                      "linear-gradient(to bottom, transparent 50%, rgba(10,5,30,0.5) 100%)",
-                  }}
-                />
-
-                {/* Purple swoosh — bottom right */}
-                <div
-                  className="absolute bottom-0 right-0 w-32 h-32 pointer-events-none"
-                  style={{
-                    background:
-                      "linear-gradient(135deg, transparent 40%, #6d28d9 100%)",
-                    borderTopLeftRadius: "100%",
-                    opacity: 0.9,
-                  }}
-                />
-
-                {/* Swirl lines on swoosh */}
-                <svg
-                  className="absolute bottom-0 right-0 w-32 h-32 pointer-events-none"
-                  viewBox="0 0 128 128"
-                  fill="none"
-                >
-                  <path
-                    d="M128 128 Q80 80 40 128"
-                    stroke="rgba(255,255,255,0.3)"
-                    strokeWidth="2"
-                  />
-                  <path
-                    d="M128 100 Q90 70 60 128"
-                    stroke="rgba(255,255,255,0.2)"
-                    strokeWidth="1.5"
-                  />
-                  <path
-                    d="M128 75 Q100 60 80 128"
-                    stroke="rgba(255,255,255,0.13)"
-                    strokeWidth="1"
-                  />
-                </svg>
-              </div>
-
-              {/* 5000+ Badge — bottom left */}
-              {/* <div
-                className="absolute flex flex-col items-start justify-center px-4 py-3 select-none"
+                className="absolute inset-0 bg-cover bg-center"
                 style={{
-                  bottom: "-10px",
-                  left: "-12px",
-                  minWidth: "128px",
-                  background:
-                    "linear-gradient(135deg, #ff6b35, #f7931e, #e91e8c)",
-                  borderRadius: "60% 40% 55% 45% / 45% 55% 40% 60%",
-                  boxShadow: "0 8px 28px rgba(255,80,0,0.5)",
-                  zIndex: 10,
+                  backgroundImage: `url(${businessImg})`,
+
+                  opacity: 0.35,
+                  mixBlendMode: "luminosity",
                 }}
-              >
-                <div className="text-white font-black text-3xl leading-tight drop-shadow">
-                  5000+
+              />
+              {/* Gradient wash so text stays readable */}
+              <div
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(100deg, rgba(20,18,60,0.95) 25%, rgba(30,40,110,0.55) 60%, rgba(30,40,110,0.15) 100%)",
+                }}
+              />
+
+              <div className="relative z-10 h-full flex flex-col p-5">
+                <span
+                  className="self-start text-[11px] font-extrabold tracking-wide px-3 py-1 rounded-full mb-2"
+                  style={{ background: "#facc15", color: "#1e1b4b" }}
+                >
+                  प्रोफेशनल
+                </span>
+                <h3 className="text-white text-2xl font-black leading-tight mb-2">
+                  बिझनेस जाहिरात
+                </h3>
+                <p className="text-white/85 text-sm leading-snug mb-3 max-w-[220px]">
+                  तुमच्या व्यवसायाची जाहिरात हजारो लोकांपर्यंत पोहोचवा!
+                </p>
+
+                <ul className="flex flex-col gap-1.5 mb-4">
+                  {[
+                    "विश्वासाई प्लॅटफॉर्म",
+                    "स्वस्त दरात प्रभावी जाहिरात",
+                    "व्यवसायाला नवी ओळख",
+                    "प्राहकपर्यंत थेट पोहोच",
+                  ].map((item, idx) => (
+                    <li key={idx} className="flex items-center gap-2 text-white/90 text-xs font-medium">
+                      <span className="flex items-center justify-center w-4 h-4 rounded-full bg-green-400 text-[#1e1b4b] shrink-0">
+                        <CheckIcon />
+                      </span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-auto flex items-end justify-between gap-3">
+                  <div className="flex flex-col gap-1.5">
+                    <a href="tel:8888123456" className="flex items-center gap-2 text-white font-bold text-base hover:text-yellow-300 transition-colors">
+                      <CallIcon /> 8888 123 456
+                    </a>
+                    <span className="flex items-center gap-2 text-white/75 text-xs">
+                      <PinIcon /> कऱाड, सातारा, महाराष्ट्र
+                    </span>
+                  </div>
+
+                  {/* Circular CTA badge */}
+                  <button className="badge-cta shrink-0 w-20 h-20 rounded-full flex flex-col items-center justify-center text-center text-[11px] font-extrabold leading-tight">
+                    <span>आजच</span>
+                    <span>जाहिरात</span>
+                    <span>बुक करा</span>
+                  </button>
                 </div>
-                <div className="text-white font-semibold text-xs leading-snug drop-shadow mt-0.5">
-                  समुदायाचे
-                  <br />
-                  विश्वास
+              </div>
+            </div>
+
+            {/* ---- Card 2: Daily Hadees ---- */}
+            <div
+              className="promo-card relative overflow-hidden rounded-3xl shadow-xl flex-1"
+              style={{
+                background: "linear-gradient(160deg, #062019 0%, #0a3b2c 60%, #0f1f1a 100%)",
+                minHeight: "260px",
+              }}
+            >
+              {/* Background quran image, faded into the gradient */}
+              <div
+                className="absolute inset-0 bg-cover bg-center"
+                style={{
+                  backgroundImage: `url(${quranImg})`,
+
+                  opacity: 0.3,
+                  mixBlendMode: "luminosity",
+                }}
+              />
+              <div
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(180deg, rgba(6,32,25,0.55) 0%, rgba(6,32,25,0.75) 55%, rgba(6,20,16,0.95) 100%)",
+                }}
+              />
+
+              <div className="relative z-10 h-full flex flex-col p-5 text-center items-center">
+                <h3 className="text-amber-300 text-xl font-black leading-tight mb-3">
+                  दैनिक हदीस <span className="text-white/90 text-base font-bold">(तबियत)</span>
+                </h3>
+
+                <span
+                  className="text-[11px] font-extrabold tracking-wide px-3 py-1 rounded-full mb-5"
+                  style={{ background: "#facc15", color: "#062019" }}
+                >
+                  हदीस शिक्षण, जीवन घडला
+                </span>
+
+                <p className="text-white/90 text-sm leading-relaxed italic mb-2 max-w-[230px]">
+                  "खरेच, अल्लाहाने तुमच्यासाठी आहामते दीन सोपा केला आहे, कठोण केला नाही."
+                </p>
+                <span className="text-amber-200/80 text-xs font-semibold mb-5">
+                  (सहीह बुखारी: 39)
+                </span>
+
+                {/* Quran illustration */}
+                <div className="mt-auto mb-4 opacity-90">
+                  <svg viewBox="0 0 100 70" className="w-24 h-16" fill="none">
+                    <path d="M50 8 L50 58" stroke="#d4af37" strokeWidth="1.5" />
+                    <path d="M50 12 C30 6 12 12 8 20 L8 52 C12 46 30 42 50 48 Z" fill="#0a3b2c" stroke="#d4af37" strokeWidth="1.5" />
+                    <path d="M50 12 C70 6 88 12 92 20 L92 52 C88 46 70 42 50 48 Z" fill="#0a3b2c" stroke="#d4af37" strokeWidth="1.5" />
+                    <rect x="20" y="58" width="60" height="6" rx="2" fill="#d4af37" opacity="0.5" />
+                  </svg>
                 </div>
-              </div> */}
+
+                <button className="hadees-cta w-full max-w-[220px] py-2.5 rounded-full font-bold text-sm text-white flex items-center justify-center gap-2">
+                  आजची हदीस वाचा <ArrowRight />
+                </button>
+              </div>
             </div>
           </div>
-
-          {/* RIGHT — Quick Link Cards */}
-          <div className="md:col-span-4 flex flex-col gap-3 order-3">
-            {quickLinks.map((item, i) => (
-              <Link
-                key={i}
-                to={item.link || "#"}
-                className="flex items-center gap-4 rounded-2xl px-5 py-4 text-white transition-all duration-300 hover:scale-105 group cursor-pointer"
-                style={{
-                  background: item.gradient,
-                  boxShadow: `0 6px 20px ${item.shadow}`,
-                }}
-              >
-                {/* Icon box */}
-                <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-white bg-opacity-20 group-hover:bg-opacity-30 transition-all">
-                  {item.icon}
-                </div>
-
-                {/* Text */}
-                <div className="flex-1">
-                  <div className="font-black text-sm tracking-wide leading-tight">
-                    {item.title}
-                  </div>
-                  <div className="text-xs opacity-90 leading-snug mt-0.5">
-                    {item.subtitle}
-                  </div>
-                </div>
-
-                {/* Arrow */}
-                <div className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all">
-                  <ArrowRight />
-                </div>
-              </Link>
-            ))}
-          </div>
-
         </div>
+
+        {/* ============ RIGHT — Quick Link Cards (full width row below) ============ */}
+        {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-8">
+          {quickLinks.map((item, i) => (
+            <Link
+              key={i}
+              to={item.link || "#"}
+              className="quick-link-card relative overflow-hidden flex items-center gap-4 rounded-2xl px-5 py-4 text-white group cursor-pointer"
+              style={{
+                "--grad": item.gradient,
+                "--grad-hover": item.hoverGradient,
+                background: item.gradient,
+                boxShadow: `0 6px 20px ${item.shadow}`,
+              }}
+            >
+              <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-white bg-opacity-20 group-hover:bg-opacity-30 transition-all relative z-10">
+                {item.icon}
+              </div>
+
+              <div className="flex-1 relative z-10">
+                <div className="font-black text-sm tracking-wide leading-tight">{item.title}</div>
+                <div className="text-xs opacity-90 leading-snug mt-0.5">{item.subtitle}</div>
+              </div>
+
+              <div className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all relative z-10">
+                <ArrowRight />
+              </div>
+            </Link>
+          ))}
+        </div> */}
       </div>
+
+      <style>{`
+        /* Primary helpline CTA — gradient position animates on hover (right-left feel) */
+        .cta-gradient {
+          background-image: linear-gradient(135deg, #f97316, #e91e8c, #f97316);
+          background-size: 200% 100%;
+          background-position: 0% 0%;
+          transition: background-position 0.5s ease;
+        }
+        .cta-gradient:hover {
+          background-position: 100% 0%;
+        }
+
+        /* Secondary outline CTA — fill slides in from left */
+        .cta-outline {
+          border: 2px solid #e91e8c;
+          color: #e91e8c;
+          background: transparent;
+        }
+        .cta-outline::before {
+          content: "";
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(135deg, #e91e8c, #f97316);
+          transform: translateX(-101%);
+          transition: transform 0.4s ease;
+          z-index: 0;
+        }
+        .cta-outline:hover::before {
+          transform: translateX(0);
+        }
+        .cta-outline:hover {
+          color: #fff;
+        }
+
+        /* Promo cards: subtle lift + image pan on hover */
+        .promo-card {
+          transition: transform 0.35s ease, box-shadow 0.35s ease;
+        }
+        .promo-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 16px 36px rgba(0,0,0,0.25);
+        }
+        .promo-card > div[style*="bg-cover"],
+        .promo-card .bg-cover {
+          transition: transform 0.6s ease;
+        }
+        .promo-card:hover .bg-cover {
+          transform: scale(1.08);
+        }
+
+        /* Circular booking badge — gradient sweeps on hover */
+        .badge-cta {
+          background-image: linear-gradient(135deg, #facc15, #f97316, #facc15);
+          background-size: 200% 200%;
+          background-position: 0% 0%;
+          color: #1e1b4b;
+          box-shadow: 0 6px 18px rgba(250,204,21,0.4);
+          transition: background-position 0.5s ease, transform 0.3s ease;
+        }
+        .badge-cta:hover {
+          background-position: 100% 100%;
+          transform: scale(1.06);
+        }
+
+        /* Hadees CTA — gradient slides left-right */
+        .hadees-cta {
+          background-image: linear-gradient(90deg, #16a34a, #0a3b2c, #16a34a);
+          background-size: 200% 100%;
+          background-position: 0% 0%;
+          transition: background-position 0.5s ease, transform 0.3s ease;
+        }
+        .hadees-cta:hover {
+          background-position: 100% 0%;
+          transform: translateY(-1px);
+        }
+
+        /* Quick link cards — gradient direction flips + arrow nudge on hover */
+        .quick-link-card {
+          background-image: var(--grad);
+          transition: transform 0.3s ease, box-shadow 0.3s ease, background-image 0.4s ease;
+        }
+        .quick-link-card:hover {
+          background-image: var(--grad-hover);
+          transform: translateY(-3px) scale(1.03);
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .cta-gradient, .cta-outline::before, .promo-card, .promo-card .bg-cover,
+          .badge-cta, .hadees-cta, .quick-link-card {
+            transition: none !important;
+          }
+        }
+      `}</style>
     </section>
   );
 }
