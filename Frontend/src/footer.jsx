@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 export default function Footer() {
   const usefulLinks = ['होम', 'आमच्याबद्दल', 'सेवा', 'उपक्रम', 'गॅलरी', 'बातम्या', 'संपर्क']
   const services = ['Blood Group', 'Donate Poor', 'VIP Numbers', 'Education Update', 'Labour Service', 'Sell/Buy', 'Marriage Topic', 'Nagarpalika Complaint']
-  const serviceLinks = { 'Blood Group': '/blood-donation', 'Donate Poor': '/donate-poor' }
+  const serviceLinks = { 'Blood Group': '/blood-donation', 'Donate Poor': '/donate-poor', 'Labour Service': '/labour-service' }
 
   return (
     <footer className="bg-gray-900 text-gray-300">

@@ -9,6 +9,7 @@ import Footer from './footer'
 import Statusbar from './statusbar'
 import BloodDonationPortal from './BloodDonationPortal'
 import DonatePoor from './DonatePoor'
+import LabourService from './LabourService'
 
 function MainSite() {
   return (
@@ -41,6 +42,7 @@ export default function App() {
       <Route path="/" element={<MainSite />} />
       <Route path="/blood-donation" element={<BloodDonationPortal />} />
       <Route path="/donate-poor" element={<DonatePoorPage />} />
+      <Route path="/labour-service" element={<LabourService />} />
     </Routes>
   )
 }
