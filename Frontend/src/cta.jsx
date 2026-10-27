@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useLang } from "./useLang";
 
 const TelegramIcon = ({ className = "w-12 h-12" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="white" className={className}>
@@ -13,6 +14,8 @@ const MailIcon = () => (
 );
 
 export default function CTA() {
+  const { lang } = useLang();
+  const isEnglish = lang === "en";
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
   const [visible, setVisible] = useState(false);
@@ -168,15 +171,15 @@ export default function CTA() {
               </div>
               <div>
                 <h2 className="text-white text-[20px] sm:text-[26px] lg:text-[29px] font-extrabold leading-snug">
-                  आजच आपणही या परिवर्तनाचा भाग व्हा!
+                  {isEnglish ? "Be part of this change today!" : "आजच आपणही या परिवर्तनाचा भाग व्हा!"}
                 </h2>
                 <p className="text-white/90 mt-2 text-[14px] sm:text-[16px] lg:text-[17px]">
-                  आपले एक पाऊल, अनेकांचे जीवन उजळेल.
+                  {isEnglish ? "One step from you can brighten many lives." : "आपले एक पाऊल, अनेकांचे जीवन उजळेल."}
                 </p>
                 <button
                   className={`donate-btn mt-4 sm:mt-5 bg-[#f4c43d] text-black font-bold text-[14px] sm:text-[17px] px-7 sm:px-9 py-[10px] sm:py-3 rounded-full ${btnPulse ? "donate-pulse" : ""}`}
                 >
-                  दान करा आणि मदत करा ❤️
+                  {isEnglish ? "Donate and help ❤️" : "दान करा आणि मदत करा ❤️"}
                 </button>
               </div>
             </div>
@@ -191,15 +194,15 @@ export default function CTA() {
 
               <div className="flex-1 min-w-0">
                 <h2 className="text-white text-[20px] sm:text-[26px] lg:text-[29px] font-extrabold leading-snug">
-                  नवीन अपडेट्स मिळवा
+                  {isEnglish ? "Get the latest updates" : "नवीन अपडेट्स मिळवा"}
                 </h2>
                 <p className="text-white/90 mt-2 mb-4 sm:mb-5 text-[14px] sm:text-[16px] lg:text-[17px]">
-                  आमच्या उपक्रमांची माहिती तुमच्या ईमेलवर मिळवा.
+                  {isEnglish ? "Receive news about our initiatives by email." : "आमच्या उपक्रमांची माहिती तुमच्या ईमेलवर मिळवा."}
                 </p>
 
                 {subscribed ? (
                   <div className="success-pop bg-white/20 backdrop-blur-sm text-white font-semibold text-[15px] px-5 py-4 rounded-md">
-                    ✅ सबस्क्रिप्शन यशस्वी! धन्यवाद 🙏
+                    {isEnglish ? "✅ Subscription successful! Thank you 🙏" : "✅ सबस्क्रिप्शन यशस्वी! धन्यवाद 🙏"}
                   </div>
                 ) : (
                   <div className="flex w-full max-w-[500px] overflow-hidden rounded-[6px] shadow-lg">
@@ -208,14 +211,14 @@ export default function CTA() {
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       onKeyDown={(e) => e.key === "Enter" && handleSubscribe()}
-                      placeholder="आपला ईमेल प्रविष्ट करा"
+                      placeholder={isEnglish ? "Enter your email" : "आपला ईमेल प्रविष्ट करा"}
                       className="email-input flex-1 h-[50px] sm:h-[56px] px-4 sm:px-5 text-[14px] sm:text-[16px] text-gray-600 bg-white"
                     />
                     <button
                       onClick={handleSubscribe}
                       className="sub-btn h-[50px] sm:h-[56px] px-4 sm:px-7 bg-[#061c74] text-white font-bold text-[13px] sm:text-[15px] whitespace-nowrap flex items-center gap-2"
                     >
-                      सबस्क्राईब करा
+                      {isEnglish ? "Subscribe" : "सबस्क्राईब करा"}
                       <TelegramIcon className="w-4 h-4" />
                     </button>
                   </div>

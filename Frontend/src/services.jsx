@@ -7,6 +7,7 @@
 
 import { useEffect, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useLang } from './useLang'
 
 // ── SVG Icons (for new cards) ───────────────────────────────────
 const BloodIcon = () => (
@@ -42,7 +43,9 @@ const services = [
     glow: 'rgba(233,30,140,0.45)',
     titleColor: '#E91E8C',
     title: 'ब्लड डोनेशन',
+    titleEn: 'Blood donation',
     desc: 'रक्तदान करा आणि जीव वाचवा',
+    descEn: 'Donate blood and help save lives',
     link: '/blood-donation',
   },
   {
@@ -51,7 +54,9 @@ const services = [
     glow: 'rgba(22,163,74,0.45)',
     titleColor: '#16A34A',
     title: 'मदत आणि सेवा',
+    titleEn: 'Help and support',
     desc: 'गरजूंना मदत आणि सहकार्य',
+    descEn: 'Support people who need help',
     link: '/donate-poor',
   },
   {
@@ -60,7 +65,10 @@ const services = [
     glow: 'rgba(37,99,235,0.45)',
     titleColor: '#2563EB',
     title: 'हेल्पलाईन',
+    titleEn: 'Helpline',
     desc: 'त्वरित संपर्क आणि सहाय्य',
+    descEn: 'Quick contact and assistance',
+    link: '/contact-numbers',
   },
   {
     icon: <GraduationIcon />,
@@ -68,7 +76,10 @@ const services = [
     glow: 'rgba(234,88,12,0.45)',
     titleColor: '#EA580C',
     title: 'शिक्षण सहाय्य',
+    titleEn: 'Education support',
     desc: 'शिक्षणासाठी मार्गदर्शन व मदत',
+    descEn: 'Guidance and assistance for education',
+    link: '/education-portal',
   },
   {
     emoji: '👷',
@@ -76,7 +87,10 @@ const services = [
     glow: 'rgba(59,130,246,0.45)',
     titleColor: '#2563EB',
     title: 'LABOUR SERVICE',
+    titleEn: 'Labour service',
     desc: 'मजूर आणि कामगार सेवा व मदत',
+    descEn: 'Services and support for workers',
+    link: '/labour-service',
   },
   {
     emoji: '🛒',
@@ -84,7 +98,10 @@ const services = [
     glow: 'rgba(22,163,74,0.45)',
     titleColor: '#16A34A',
     title: 'SELL/BUY',
+    titleEn: 'Buy and sell',
     desc: 'वस्तू खरेदी-विक्री साठी प्लॅटफॉर्म',
+    descEn: 'A platform to buy and sell goods',
+    link: '/buy-sell',
   },
   {
     emoji: '💑',
@@ -92,7 +109,10 @@ const services = [
     glow: 'rgba(236,72,153,0.45)',
     titleColor: '#DB2777',
     title: 'MARRIAGE TOPIC',
+    titleEn: 'Marriage profiles',
     desc: 'रिश्ते शोध, माहिती आणि संपर्क सुविधा',
+    descEn: 'Find profiles, information, and contact options',
+    link: '/marriage-profiles',
   },
   {
     emoji: '🏛️',
@@ -100,7 +120,10 @@ const services = [
     glow: 'rgba(234,88,12,0.45)',
     titleColor: '#EA580C',
     title: 'NAGARPALIKA COMPLAINT',
+    titleEn: 'Municipal complaints',
     desc: 'तक्रार नोंदवा आणि निराकरण मिळवा',
+    descEn: 'Submit a complaint and get it resolved',
+    link: '/complaint-portal',
   },
   {
     emoji: '💼',
@@ -108,7 +131,10 @@ const services = [
     glow: 'rgba(124,58,237,0.45)',
     titleColor: '#7C3AED',
     title: 'रोजगार उपक्रम',
+    titleEn: 'Employment initiatives',
     desc: 'रोजगाराच्या संधी उपलब्ध करून देणे',
+    descEn: 'Connecting people with employment opportunities',
+    link: '/job-portal',
   },
   {
     emoji: '🚔',
@@ -116,7 +142,10 @@ const services = [
     glow: 'rgba(13,148,136,0.45)',
     titleColor: '#0D9488',
     title: 'HELP POLICE',
+    titleEn: 'Support the police',
     desc: 'पोलिसांना सहकार्य आणि जनजागृती उपक्रम',
+    descEn: 'Public awareness and community support for police',
+    link: '/police-mitr',
   },
   {
     emoji: '👥',
@@ -124,7 +153,10 @@ const services = [
     glow: 'rgba(6,182,212,0.45)',
     titleColor: '#0891B2',
     title: 'समाज जागरूकता',
+    titleEn: 'Community awareness',
     desc: 'समाजात एकता आणि स्वच्छता वाढवणे',
+    descEn: 'Promoting unity and cleanliness in the community',
+    link: '/WomenEntrepreneur',
   },
   {
     emoji: '🆘',
@@ -133,6 +165,7 @@ const services = [
     titleColor: '#DC2626',
     title: 'आपती मदत',
     desc: 'आपदीमध्ये त्वरित मदत आणि सहकार्य',
+    link: '/delivery-home',
   },
   // ── New cards (icon-based, same card/animation system) ──
   
@@ -183,6 +216,7 @@ const STYLES = `
 // ── Component ────────────────────────────────────────────────────
 export default function Services() {
   const sectionRef = useRef(null)
+  const { lang } = useLang()
 
   // Inject keyframes once
   useEffect(() => {
@@ -222,7 +256,7 @@ export default function Services() {
             className="text-2xl font-bold tracking-tight text-gray-800"
             style={{ fontFamily: "'Noto Sans Devanagari', sans-serif" }}
           >
-            आमचे प्रमुख कार्यक्षेत्र
+            {lang === 'en' ? 'Our key areas of work' : 'आमचे प्रमुख कार्यक्षेत्र'}
           </h2>
           <span className="w-2 h-2 rounded-full bg-red-500 shadow-sm shadow-red-300" />
         </div>
@@ -232,7 +266,11 @@ export default function Services() {
       {/* ── Grid: 6 cards per row → 2 rows of 6 (12 total) ── */}
       <div className="max-w-7xl mx-auto grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
         {services.map((svc, i) => (
-          <ServiceCard key={i} svc={svc} delay={i * 70} />
+          <ServiceCard
+            key={i}
+            svc={lang === 'en' ? { ...svc, title: svc.titleEn, desc: svc.descEn } : svc}
+            delay={i * 70}
+          />
         ))}
       </div>
     </section>

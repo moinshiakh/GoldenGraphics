@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useLang } from "./useLang";
 import businessImg from "./assets/business.png";
-import quranImg from "./assets/quran.webp";
 
 // ---------- SVG Icons ----------
 const BloodIcon = () => (
@@ -53,6 +53,48 @@ const CheckIcon = () => (
   </svg>
 );
 
+const BookOpenIcon = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-4 h-4 shrink-0">
+    <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+    <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+  </svg>
+);
+
+const StarIcon = () => (
+  <svg viewBox="0 0 24 24" fill="currentColor" className="w-3 h-3">
+    <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
+  </svg>
+);
+
+// ---------- Data ----------
+const HADEES = [
+  {
+    mr: "\"खरेच, अल्लाहाने तुमच्यासाठी दीन सोपा केला आहे, कठीण केला नाही.\"",
+    en: "\"Indeed, Allah has made religion easy for you, not difficult.\"",
+    ref: "सहीह बुखारी: 39",
+  },
+  {
+    mr: "\"तुमच्यापैकी सर्वोत्तम तो आहे जो आपल्या कुटुंबासाठी सर्वोत्तम आहे.\"",
+    en: "\"The best of you is he who is best to his family.\"",
+    ref: "तिर्मिजी: 3895",
+  },
+  {
+    mr: "\"स्मित हास्य हे सदकाचा एक प्रकार आहे.\"",
+    en: "\"A smile in the face of your brother is charity.\"",
+    ref: "तिर्मिजी: 1956",
+  },
+  {
+    mr: "\"जो माणूस दयाळू नाही त्याला दयाळूपणा दिला जात नाही.\"",
+    en: "\"He who is not merciful to others will not be treated mercifully.\"",
+    ref: "बुखारी: 6013",
+  },
+  {
+    mr: "\"चांगले बोलावे किंवा गप्प राहावे — हीच खरी अक्कल.\"",
+    en: "\"Speak good or remain silent — this is true wisdom.\"",
+    ref: "बुखारी: 6018",
+  },
+];
+
 const quickLinks = [
   {
     icon: <BloodIcon />,
@@ -66,7 +108,7 @@ const quickLinks = [
   {
     icon: <HeartHandIcon />,
     title: "DONATE POOR",
-    subtitle: "गरीब आणि गरजू लोकांना मदत करा",
+    subtitle: "गरीब आणि गरजू लोकांना मदद करा",
     gradient: "linear-gradient(135deg, #16a34a, #4ade80)",
     hoverGradient: "linear-gradient(135deg, #4ade80, #16a34a)",
     shadow: "rgba(22,163,74,0.35)",
@@ -88,29 +130,327 @@ const quickLinks = [
     gradient: "linear-gradient(135deg, #ea580c, #fb923c)",
     hoverGradient: "linear-gradient(135deg, #fb923c, #ea580c)",
     shadow: "rgba(234,88,12,0.35)",
-    link: "/education-update",
+    link: "/education-portal",
   },
 ];
 
+// ---------- Hadees Ticker ----------
+function HadeesTicker({ isEnglish }) {
+  const items = [...HADEES, ...HADEES]; // duplicate for seamless infinite loop
+  return (
+    <div className="hadees-ticker-wrap w-full overflow-hidden"
+      style={{
+        background: "linear-gradient(90deg, #041f14 0%, #0a3b2c 40%, #072b1e 100%)",
+        borderBottom: "2px solid rgba(212,175,55,0.3)",
+      }}
+    >
+      <div className="flex items-stretch" style={{ minHeight: 44 }}>
+
+        {/* Left label badge */}
+        <div
+          className="flex items-center gap-2 shrink-0 px-4"
+          style={{
+            background: "linear-gradient(135deg, #d4af37 0%, #f5e17a 100%)",
+            clipPath: "polygon(0 0, calc(100% - 10px) 0, 100% 50%, calc(100% - 10px) 100%, 0 100%)",
+            paddingRight: 22,
+          }}
+        >
+          <span style={{ fontSize: 13 }}>📖</span>
+          <span
+            className="font-extrabold tracking-wider whitespace-nowrap"
+            style={{ color: "#062019", fontSize: "0.7rem", fontFamily: "'Noto Sans Devanagari','Inter',sans-serif" }}
+          >
+            {isEnglish ? "DAILY HADITH" : "दैनिक हदीस"}
+          </span>
+        </div>
+
+        {/* Scrolling strip */}
+        <div className="flex-1 overflow-hidden relative">
+          <div className="hadees-ticker-inner flex items-center h-full">
+            {items.map((h, i) => (
+              <span
+                key={i}
+                className="inline-flex items-center gap-3 whitespace-nowrap italic"
+                style={{
+                  padding: "0 32px",
+                  color: "rgba(255,255,255,0.88)",
+                  fontSize: "0.82rem",
+                  fontFamily: "'Noto Sans Devanagari','Inter',sans-serif",
+                }}
+              >
+                <span style={{ color: "#d4af37", fontSize: 10, fontStyle: "normal" }}>✦</span>
+                {isEnglish ? h.en : h.mr}
+                <span
+                  className="font-bold not-italic"
+                  style={{
+                    color: "#d4af37", fontSize: "0.7rem",
+                    background: "rgba(212,175,55,0.14)",
+                    border: "1px solid rgba(212,175,55,0.28)",
+                    borderRadius: 20, padding: "1px 9px",
+                  }}
+                >
+                  {h.ref}
+                </span>
+                <span style={{ color: "rgba(212,175,55,0.3)", fontStyle: "normal" }}>◆</span>
+              </span>
+            ))}
+          </div>
+        </div>
+
+        {/* Right: more link */}
+        <div
+          className="flex items-center px-4 shrink-0"
+          style={{ borderLeft: "1px solid rgba(212,175,55,0.18)" }}
+        >
+          <Link
+            to="/hadees"
+            className="hadees-more-btn font-bold whitespace-nowrap"
+            style={{
+              color: "#d4af37",
+              background: "rgba(212,175,55,0.1)",
+              border: "1px solid rgba(212,175,55,0.28)",
+              borderRadius: 20, padding: "4px 14px",
+              fontSize: "0.72rem",
+              textDecoration: "none",
+              fontFamily: "'Noto Sans Devanagari','Inter',sans-serif",
+              transition: "all 0.18s ease",
+              display: "inline-flex", alignItems: "center", gap: 5,
+            }}
+          >
+            {isEnglish ? "More" : "अधिक"} <BookOpenIcon />
+          </Link>
+        </div>
+
+      </div>
+    </div>
+  );
+}
+
+// ---------- Business Card (full width) ----------
+function BusinessCard({ isEnglish }) {
+  const checks = isEnglish
+    ? [
+        "Trusted platform",
+        "Effective & affordable advertising",
+        "Give your business a new identity",
+        "Reach customers directly",
+        "10,000+ audience reach",
+        "24/7 support available",
+      ]
+    : [
+        "विश्वासार्ह प्लॅटफॉर्म",
+        "स्वस्त दरात प्रभावी जाहिरात",
+        "व्यवसायाला नवी ओळख",
+        "ग्राहकांपर्यंत थेट पोहोच",
+        "१०,०००+ प्रेक्षक",
+        "२४/७ सहाय्य उपलब्ध",
+      ];
+
+  return (
+    <div
+      className="promo-card relative overflow-hidden rounded-3xl shadow-2xl w-full"
+      style={{
+        background: "linear-gradient(135deg, #1e1b4b 0%, #1e2a6b 55%, #2d3a8c 100%)",
+        minHeight: 260,
+      }}
+    >
+      {/* Background image overlay */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        style={{
+          backgroundImage: `url(${businessImg})`,
+          opacity: 0.22,
+          mixBlendMode: "luminosity",
+        }}
+      />
+      {/* Gradient wash */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "linear-gradient(105deg, rgba(20,18,60,0.97) 20%, rgba(30,40,110,0.6) 60%, rgba(30,40,110,0.18) 100%)",
+        }}
+      />
+      {/* Shimmer sweep */}
+      <div
+        className="absolute inset-0 pointer-events-none biz-shimmer"
+        style={{
+          background:
+            "linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.04) 50%, transparent 70%)",
+          backgroundSize: "600px 100%",
+        }}
+      />
+      {/* Decorative glow circles */}
+      <div
+        className="absolute pointer-events-none rounded-full"
+        style={{
+          top: -60, right: -60, width: 220, height: 220,
+          background: "radial-gradient(circle, rgba(250,204,21,0.1) 0%, transparent 70%)",
+        }}
+      />
+      <div
+        className="absolute pointer-events-none rounded-full"
+        style={{
+          bottom: -50, left: -50, width: 180, height: 180,
+          background: "radial-gradient(circle, rgba(233,30,140,0.1) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* Content grid */}
+      <div
+        className="relative z-10 flex flex-col sm:flex-row gap-6 p-6 sm:p-8 h-full"
+        style={{ alignItems: "stretch" }}
+      >
+        {/* LEFT text */}
+        <div className="flex flex-col gap-4 flex-1">
+          {/* Tag + stars */}
+          <div className="flex items-center gap-3 flex-wrap">
+            <span
+              className="text-xs font-extrabold tracking-wider px-3 py-1 rounded-full uppercase"
+              style={{ background: "#facc15", color: "#1e1b4b" }}
+            >
+              {isEnglish ? "Professional" : "प्रोफेशनल"}
+            </span>
+            <div className="flex gap-0.5" style={{ color: "#facc15" }}>
+              {[...Array(5)].map((_, i) => <StarIcon key={i} />)}
+            </div>
+          </div>
+
+          {/* Headline */}
+          <div>
+            <h3
+              className="text-white font-black leading-tight"
+              style={{ fontSize: "clamp(1.35rem, 3vw, 1.9rem)" }}
+            >
+              {isEnglish ? "Business Advertising" : "बिझनेस जाहिरात"}
+            </h3>
+            <p
+              className="mt-2 leading-relaxed"
+              style={{
+                color: "rgba(255,255,255,0.75)",
+                fontSize: "0.88rem",
+                maxWidth: 440,
+              }}
+            >
+              {isEnglish
+                ? "Reach thousands of people with your business advertisement and grow your customer base rapidly!"
+                : "तुमच्या व्यवसायाची जाहिरात हजारो लोकांपर्यंत पोहोचवा आणि ग्राहकांचा आधार झपाट्याने वाढवा!"}
+            </p>
+          </div>
+
+          {/* 2-column checklist */}
+          <ul
+            className="grid gap-y-2 gap-x-5"
+            style={{ gridTemplateColumns: "repeat(auto-fill, minmax(175px, 1fr))" }}
+          >
+            {checks.map((item, idx) => (
+              <li key={idx} className="check-item flex items-center gap-2 text-white/90 text-sm font-medium">
+                <span
+                  className="flex items-center justify-center rounded-full shrink-0 check-dot"
+                  style={{ width: 18, height: 18, background: "#4ade80", color: "#1e1b4b" }}
+                >
+                  <CheckIcon />
+                </span>
+                {item}
+              </li>
+            ))}
+          </ul>
+
+          {/* Phone + location */}
+          <div className="flex flex-wrap items-center gap-5 mt-auto pt-2">
+            <a
+              href="tel:8888123456"
+              className="biz-phone flex items-center gap-2 text-white font-bold text-base"
+              style={{ textDecoration: "none" }}
+            >
+              <span
+                className="flex items-center justify-center rounded-full"
+                style={{
+                  width: 30, height: 30,
+                  background: "rgba(74,222,128,0.18)",
+                  border: "1.5px solid rgba(74,222,128,0.4)",
+                  color: "#4ade80",
+                }}
+              >
+                <CallIcon />
+              </span>
+              8888 123 456
+            </a>
+
+            <span
+              className="flex items-center gap-2 text-xs"
+              style={{ color: "rgba(255,255,255,0.6)" }}
+            >
+              <span style={{ color: "#f87171" }}><PinIcon /></span>
+              {isEnglish ? "Karad, Satara, Maharashtra" : "कऱाड, सातारा, महाराष्ट्र"}
+            </span>
+          </div>
+        </div>
+
+        {/* RIGHT: circular badge + live pill */}
+        <div className="flex flex-col items-center justify-center gap-3 shrink-0 sm:pl-4">
+          <button className="badge-cta shrink-0 rounded-full flex flex-col items-center justify-center text-center font-extrabold leading-tight"
+            style={{ width: 108, height: 108, fontSize: "0.72rem" }}
+          >
+            <span>{isEnglish ? "Book" : "आजच"}</span>
+            <span>{isEnglish ? "Your Ad" : "जाहिरात"}</span>
+            <span style={{ fontSize: "0.65rem" }}>{isEnglish ? "Today!" : "बुक करा!"}</span>
+          </button>
+
+          <div
+            className="flex items-center gap-2 rounded-full px-3 py-1 whitespace-nowrap"
+            style={{
+              background: "rgba(255,255,255,0.07)",
+              border: "1px solid rgba(255,255,255,0.12)",
+              color: "rgba(255,255,255,0.7)",
+              fontSize: "0.68rem", fontWeight: 600,
+            }}
+          >
+            <span
+              className="live-dot rounded-full shrink-0"
+              style={{ width: 7, height: 7, background: "#4ade80", display: "inline-block" }}
+            />
+            {isEnglish ? "Limited slots" : "मर्यादित जागा"}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+// ---------- Main Home ----------
 export default function Home() {
+  const { lang } = useLang();
+  const isEnglish = lang === "en";
+
   return (
     <section
       className="w-full bg-white overflow-hidden"
       style={{ fontFamily: "'Noto Sans Devanagari', 'Mukta', 'Segoe UI', sans-serif" }}
     >
+
+      {/* ═══════════════════════════════════════
+          HADEES MARQUEE TICKER — sits at top
+      ═══════════════════════════════════════ */}
+      <HadeesTicker isEnglish={isEnglish} />
+
+      {/* ═══════════════════════════════════════
+          HERO
+      ═══════════════════════════════════════ */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-14 lg:py-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
-          {/* ============ LEFT — Text Content ============ */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+
+          {/* ── LEFT: Text ── */}
           <div className="flex flex-col gap-5 justify-center order-1">
             <div>
               <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-gray-900 leading-tight">
-                एकत्र येऊया,
+                {isEnglish ? "Come together," : "एकत्र येऊया,"}
               </h1>
               <h1
                 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight"
                 style={{ color: "#e91e8c" }}
               >
-                समाज घडवूया!
+                {isEnglish ? "Let's build a stronger society!" : "समाज घडवूया!"}
               </h1>
             </div>
 
@@ -128,193 +468,45 @@ export default function Home() {
             </div>
 
             <p className="text-gray-700 leading-relaxed text-lg lg:text-xl max-w-md font-semibold">
-              शिक्षण, आरोग्य, रोजगार, महिला सशक्तीकरण आणि सामाजिक एकतेसाठी आम्ही
-              कटिबद्ध आहोत. चला, एकत्र येऊन उज्ज्वल भविष्य घडवूया.
+              {isEnglish
+                ? "We are committed to education, healthcare, employment, women's empowerment, and social unity. Together, let's create a brighter future."
+                : "शिक्षण, आरोग्य, रोजगार, महिला सशक्तीकरण आणि सामाजिक एकतेसाठी आम्ही कटिबद्ध आहोत. चला, एकत्र येऊन उज्ज्वल भविष्य घडवूया."}
             </p>
 
             <div className="flex flex-wrap gap-3 pt-1">
-              {/* Primary CTA — animated gradient shift on hover */}
-              <button
-                className="cta-gradient flex items-center gap-2 text-white font-bold px-6 py-3 rounded-full shadow-lg hover:shadow-xl hover:scale-105 transition-transform duration-300 text-md"
-              >
+              <button className="cta-gradient flex items-center gap-2 text-white font-bold px-6 py-3 rounded-full shadow-lg text-md">
                 <CallIcon />
-                हेल्पलाईनशी संपर्क करा
+                {isEnglish ? "Contact the helpline" : "हेल्पलाईनशी संपर्क करा"}
               </button>
 
-              {/* Secondary CTA — fill slides in from left on hover */}
-              <button className="cta-outline relative overflow-hidden font-bold px-6 py-3 rounded-full text-md transition-colors duration-300">
+              <button className="cta-outline relative overflow-hidden font-bold px-6 py-3 rounded-full text-md">
                 <span className="relative z-10 flex items-center gap-2">
-                  सेवा एक्सप्लोर करा <ArrowRight />
+                  {isEnglish ? "Explore services" : "सेवा एक्सप्लोर करा"} <ArrowRight />
                 </span>
               </button>
             </div>
           </div>
 
-          {/* ============ RIGHT — Two promo cards ============ */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 order-2 h-full">
-            {/* ---- Card 1: Professional Business Ad ---- */}
-            <div
-              className="promo-card relative overflow-hidden rounded-3xl shadow-xl flex-1"
-              style={{
-                background: "linear-gradient(160deg, #1e1b4b 0%, #1e2a6b 55%, #2d3a8c 100%)",
-                minHeight: "260px",
-              }}
-            >
-              {/* Background building image, faded into the gradient */}
-              <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{
-                  backgroundImage: `url(${businessImg})`,
-
-                  opacity: 0.35,
-                  mixBlendMode: "luminosity",
-                }}
-              />
-              {/* Gradient wash so text stays readable */}
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(100deg, rgba(20,18,60,0.95) 25%, rgba(30,40,110,0.55) 60%, rgba(30,40,110,0.15) 100%)",
-                }}
-              />
-
-              <div className="relative z-10 h-full flex flex-col p-5">
-                <span
-                  className="self-start text-[11px] font-extrabold tracking-wide px-3 py-1 rounded-full mb-2"
-                  style={{ background: "#facc15", color: "#1e1b4b" }}
-                >
-                  प्रोफेशनल
-                </span>
-                <h3 className="text-white text-2xl font-black leading-tight mb-2">
-                  बिझनेस जाहिरात
-                </h3>
-                <p className="text-white/85 text-sm leading-snug mb-3 max-w-[220px]">
-                  तुमच्या व्यवसायाची जाहिरात हजारो लोकांपर्यंत पोहोचवा!
-                </p>
-
-                <ul className="flex flex-col gap-1.5 mb-4">
-                  {[
-                    "विश्वासाई प्लॅटफॉर्म",
-                    "स्वस्त दरात प्रभावी जाहिरात",
-                    "व्यवसायाला नवी ओळख",
-                    "प्राहकपर्यंत थेट पोहोच",
-                  ].map((item, idx) => (
-                    <li key={idx} className="flex items-center gap-2 text-white/90 text-xs font-medium">
-                      <span className="flex items-center justify-center w-4 h-4 rounded-full bg-green-400 text-[#1e1b4b] shrink-0">
-                        <CheckIcon />
-                      </span>
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-
-                <div className="mt-auto flex items-end justify-between gap-3">
-                  <div className="flex flex-col gap-1.5">
-                    <a href="tel:8888123456" className="flex items-center gap-2 text-white font-bold text-base hover:text-yellow-300 transition-colors">
-                      <CallIcon /> 8888 123 456
-                    </a>
-                    <span className="flex items-center gap-2 text-white/75 text-xs">
-                      <PinIcon /> कऱाड, सातारा, महाराष्ट्र
-                    </span>
-                  </div>
-
-                  {/* Circular CTA badge */}
-                  <button className="badge-cta shrink-0 w-20 h-20 rounded-full flex flex-col items-center justify-center text-center text-[11px] font-extrabold leading-tight">
-                    <span>आजच</span>
-                    <span>जाहिरात</span>
-                    <span>बुक करा</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* ---- Card 2: Daily Hadees ---- */}
-            <div
-              className="promo-card relative overflow-hidden rounded-3xl shadow-xl flex-1"
-              style={{
-                background: "linear-gradient(160deg, #062019 0%, #0a3b2c 60%, #0f1f1a 100%)",
-                minHeight: "260px",
-              }}
-            >
-              {/* Background quran image, faded into the gradient */}
-              <div
-                className="absolute inset-0 bg-cover bg-center"
-                style={{
-                  backgroundImage: `url(${quranImg})`,
-
-                  opacity: 0.3,
-                  mixBlendMode: "luminosity",
-                }}
-              />
-              <div
-                className="absolute inset-0"
-                style={{
-                  background:
-                    "linear-gradient(180deg, rgba(6,32,25,0.55) 0%, rgba(6,32,25,0.75) 55%, rgba(6,20,16,0.95) 100%)",
-                }}
-              />
-
-              <div className="relative z-10 h-full flex flex-col p-5 text-center items-center">
-                <h3 className="text-amber-300 text-xl font-black leading-tight mb-3">
-                  दैनिक हदीस <span className="text-white/90 text-base font-bold">(तबियत)</span>
-                </h3>
-
-                <span
-                  className="text-[11px] font-extrabold tracking-wide px-3 py-1 rounded-full mb-5"
-                  style={{ background: "#facc15", color: "#062019" }}
-                >
-                  हदीस शिक्षण, जीवन घडला
-                </span>
-
-                <p className="text-white/90 text-sm leading-relaxed italic mb-2 max-w-[230px]">
-                  "खरेच, अल्लाहाने तुमच्यासाठी आहामते दीन सोपा केला आहे, कठोण केला नाही."
-                </p>
-                <span className="text-amber-200/80 text-xs font-semibold mb-5">
-                  (सहीह बुखारी: 39)
-                </span>
-
-                {/* Quran illustration */}
-                <div className="mt-auto mb-4 opacity-90">
-                  <svg viewBox="0 0 100 70" className="w-24 h-16" fill="none">
-                    <path d="M50 8 L50 58" stroke="#d4af37" strokeWidth="1.5" />
-                    <path d="M50 12 C30 6 12 12 8 20 L8 52 C12 46 30 42 50 48 Z" fill="#0a3b2c" stroke="#d4af37" strokeWidth="1.5" />
-                    <path d="M50 12 C70 6 88 12 92 20 L92 52 C88 46 70 42 50 48 Z" fill="#0a3b2c" stroke="#d4af37" strokeWidth="1.5" />
-                    <rect x="20" y="58" width="60" height="6" rx="2" fill="#d4af37" opacity="0.5" />
-                  </svg>
-                </div>
-
-                <button className="hadees-cta w-full max-w-[220px] py-2.5 rounded-full font-bold text-sm text-white flex items-center justify-center gap-2">
-                  आजची हदीस वाचा <ArrowRight />
-                </button>
-              </div>
-            </div>
+          {/* ── RIGHT: Business card full width ── */}
+          <div className="order-2 w-full">
+            <BusinessCard isEnglish={isEnglish} />
           </div>
+
         </div>
 
-        {/* ============ RIGHT — Quick Link Cards (full width row below) ============ */}
+        {/* ── Quick link cards (commented-out section — kept as-is) ── */}
         {/* <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 mt-8">
           {quickLinks.map((item, i) => (
-            <Link
-              key={i}
-              to={item.link || "#"}
-              className="quick-link-card relative overflow-hidden flex items-center gap-4 rounded-2xl px-5 py-4 text-white group cursor-pointer"
-              style={{
-                "--grad": item.gradient,
-                "--grad-hover": item.hoverGradient,
-                background: item.gradient,
-                boxShadow: `0 6px 20px ${item.shadow}`,
-              }}
+            <Link key={i} to={item.link || "#"} className="quick-link-card relative overflow-hidden flex items-center gap-4 rounded-2xl px-5 py-4 text-white group cursor-pointer"
+              style={{ "--grad": item.gradient, "--grad-hover": item.hoverGradient, background: item.gradient, boxShadow: `0 6px 20px ${item.shadow}` }}
             >
               <div className="w-12 h-12 rounded-xl flex items-center justify-center shrink-0 bg-white bg-opacity-20 group-hover:bg-opacity-30 transition-all relative z-10">
                 {item.icon}
               </div>
-
               <div className="flex-1 relative z-10">
                 <div className="font-black text-sm tracking-wide leading-tight">{item.title}</div>
                 <div className="text-xs opacity-90 leading-snug mt-0.5">{item.subtitle}</div>
               </div>
-
               <div className="opacity-50 group-hover:opacity-100 group-hover:translate-x-1 transition-all relative z-10">
                 <ArrowRight />
               </div>
@@ -324,22 +516,70 @@ export default function Home() {
       </div>
 
       <style>{`
-        /* Primary helpline CTA — gradient position animates on hover (right-left feel) */
+        /* Hadees ticker animation */
+        @keyframes marqueeFlow {
+          0%   { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+        .hadees-ticker-inner {
+          display: inline-flex;
+          white-space: nowrap;
+          animation: marqueeFlow 42s linear infinite;
+        }
+        .hadees-ticker-wrap:hover .hadees-ticker-inner {
+          animation-play-state: paused;
+        }
+        .hadees-more-btn:hover {
+          background: rgba(212,175,55,0.22) !important;
+          color: #f5e17a !important;
+          transform: translateY(-1px);
+        }
+
+        /* Business card shimmer */
+        @keyframes shimmer {
+          0%   { background-position: -600px 0; }
+          100% { background-position:  600px 0; }
+        }
+        .biz-shimmer { animation: shimmer 3.5s linear infinite; }
+
+        /* Live dot pulse */
+        @keyframes livePulse {
+          0%,100% { opacity: 1; transform: scale(1); }
+          50%      { opacity: 0.5; transform: scale(1.4); }
+        }
+        .live-dot { animation: livePulse 1.8s ease-in-out infinite; }
+
+        /* Check item hover */
+        .check-item { transition: transform 0.18s ease, color 0.18s ease; }
+        .check-item:hover { transform: translateX(4px); }
+        .check-item:hover .check-dot { background: #facc15 !important; }
+
+        /* Phone hover */
+        .biz-phone { transition: color 0.18s ease; }
+        .biz-phone:hover { color: #facc15 !important; }
+
+        /* Primary helpline CTA */
         .cta-gradient {
           background-image: linear-gradient(135deg, #f97316, #e91e8c, #f97316);
           background-size: 200% 100%;
           background-position: 0% 0%;
-          transition: background-position 0.5s ease;
+          border: none;
+          cursor: pointer;
+          transition: background-position 0.5s ease, transform 0.22s ease, box-shadow 0.22s ease;
         }
         .cta-gradient:hover {
           background-position: 100% 0%;
+          transform: translateY(-2px) scale(1.03);
+          box-shadow: 0 8px 28px rgba(233,30,140,0.4);
         }
 
-        /* Secondary outline CTA — fill slides in from left */
+        /* Secondary outline CTA */
         .cta-outline {
           border: 2px solid #e91e8c;
           color: #e91e8c;
           background: transparent;
+          cursor: pointer;
+          transition: color 0.25s ease, transform 0.22s ease;
         }
         .cta-outline::before {
           content: "";
@@ -347,62 +587,43 @@ export default function Home() {
           inset: 0;
           background: linear-gradient(135deg, #e91e8c, #f97316);
           transform: translateX(-101%);
-          transition: transform 0.4s ease;
+          transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
           z-index: 0;
+          border-radius: inherit;
         }
-        .cta-outline:hover::before {
-          transform: translateX(0);
-        }
-        .cta-outline:hover {
-          color: #fff;
-        }
+        .cta-outline:hover::before { transform: translateX(0); }
+        .cta-outline:hover { color: #fff; transform: translateY(-2px); }
 
-        /* Promo cards: subtle lift + image pan on hover */
-        .promo-card {
-          transition: transform 0.35s ease, box-shadow 0.35s ease;
-        }
+        /* Promo card lift */
+        .promo-card { transition: transform 0.32s ease, box-shadow 0.32s ease; }
         .promo-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 16px 36px rgba(0,0,0,0.25);
+          transform: translateY(-5px);
+          box-shadow: 0 20px 54px rgba(0,0,0,0.28) !important;
         }
-        .promo-card > div[style*="bg-cover"],
-        .promo-card .bg-cover {
-          transition: transform 0.6s ease;
-        }
-        .promo-card:hover .bg-cover {
-          transform: scale(1.08);
-        }
+        .promo-card .bg-cover { transition: transform 0.6s ease; }
+        .promo-card:hover .bg-cover { transform: scale(1.07); }
 
-        /* Circular booking badge — gradient sweeps on hover */
+        /* Circular booking badge */
         .badge-cta {
           background-image: linear-gradient(135deg, #facc15, #f97316, #facc15);
           background-size: 200% 200%;
           background-position: 0% 0%;
           color: #1e1b4b;
-          box-shadow: 0 6px 18px rgba(250,204,21,0.4);
-          transition: background-position 0.5s ease, transform 0.3s ease;
+          border: none;
+          cursor: pointer;
+          box-shadow: 0 6px 20px rgba(250,204,21,0.4);
+          transition: background-position 0.5s ease, transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease;
         }
         .badge-cta:hover {
           background-position: 100% 100%;
-          transform: scale(1.06);
+          transform: scale(1.08) rotate(4deg);
+          box-shadow: 0 10px 30px rgba(250,204,21,0.55);
         }
 
-        /* Hadees CTA — gradient slides left-right */
-        .hadees-cta {
-          background-image: linear-gradient(90deg, #16a34a, #0a3b2c, #16a34a);
-          background-size: 200% 100%;
-          background-position: 0% 0%;
-          transition: background-position 0.5s ease, transform 0.3s ease;
-        }
-        .hadees-cta:hover {
-          background-position: 100% 0%;
-          transform: translateY(-1px);
-        }
-
-        /* Quick link cards — gradient direction flips + arrow nudge on hover */
+        /* Quick link cards */
         .quick-link-card {
           background-image: var(--grad);
-          transition: transform 0.3s ease, box-shadow 0.3s ease, background-image 0.4s ease;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
         .quick-link-card:hover {
           background-image: var(--grad-hover);
@@ -410,10 +631,14 @@ export default function Home() {
         }
 
         @media (prefers-reduced-motion: reduce) {
-          .cta-gradient, .cta-outline::before, .promo-card, .promo-card .bg-cover,
-          .badge-cta, .hadees-cta, .quick-link-card {
-            transition: none !important;
-          }
+          .hadees-ticker-inner,
+          .biz-shimmer,
+          .live-dot,
+          .cta-gradient,
+          .cta-outline::before,
+          .promo-card,
+          .badge-cta,
+          .quick-link-card { transition: none !important; animation: none !important; }
         }
       `}</style>
     </section>

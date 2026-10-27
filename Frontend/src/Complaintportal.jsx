@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import Navbar from "./navbar";
 import Footer from "./footer";
+import { useLang } from "./useLang";
 
 // ─── Design tokens (MCGM/Govt India palette) ─────────────────────────────────
 const T = {
@@ -376,7 +377,7 @@ function ComplaintForm({ lang, onClose }) {
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function ComplaintPortal() {
-  const [lang, setLang]           = useState("mr");
+  const { lang, setLang } = useLang();
   const [langOpen, setLangOpen]   = useState(false);
   const [isMobile, setIsMobile]   = useState(false);
   const [activeCat, setActiveCat] = useState(null);
@@ -709,7 +710,7 @@ export default function ComplaintPortal() {
       <Footer/>
 
       {/* ── Language FAB ── */}
-      <div style={{ position:"fixed", bottom:24, right:24, zIndex:300 }}>
+      <div className="legacy-language-switcher" style={{ position:"fixed", bottom:24, right:24, zIndex:300 }}>
         {langOpen && (
           <div style={{
             position:"absolute", bottom:62, right:0,

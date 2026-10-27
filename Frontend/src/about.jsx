@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLang } from "./useLang";
 
 const values = [
   {
@@ -11,7 +12,9 @@ const values = [
     color: "text-green-400",
     borderColor: "border-green-400/30",
     title: "पारदर्शकता",
+    titleEn: "Transparency",
     desc: "पूर्ण पारदर्शक आणि विश्वासाहं कार्यप्रणाली",
+    descEn: "A transparent and trustworthy way of working",
   },
   {
     icon: (
@@ -25,7 +28,9 @@ const values = [
     color: "text-blue-400",
     borderColor: "border-blue-400/30",
     title: "समर्पण",
+    titleEn: "Dedication",
     desc: "समाजासाठी समर्पित आणि निरंतर सेवा",
+    descEn: "Dedicated, continuous service to the community",
   },
   {
     icon: (
@@ -37,11 +42,15 @@ const values = [
     color: "text-pink-400",
     borderColor: "border-pink-400/30",
     title: "विश्वास",
+    titleEn: "Trust",
     desc: "आपला विश्वास, आमची सर्वात मोठी ताकद",
+    descEn: "Your trust is our greatest strength",
   },
 ];
 
 export default function About() {
+  const { lang } = useLang();
+  const isEnglish = lang === "en";
   const [visible, setVisible] = useState(false);
   const sectionRef = useRef(null);
 
@@ -106,7 +115,7 @@ export default function About() {
               <span
                 className="text-xs font-semibold tracking-widest uppercase text-yellow-300"
               >
-                आमच्याबद्दल
+                {isEnglish ? "About us" : "आमच्याबद्दल"}
               </span>
             </div>
 
@@ -115,7 +124,7 @@ export default function About() {
               className="text-4xl sm:text-5xl font-black leading-tight"
               style={{ lineHeight: 1.25 }}
             >
-              <span className="block">सेवेचा वसा,</span>
+              <span className="block">{isEnglish ? "A promise of service," : "सेवेचा वसा,"}</span>
               <span
                 className="block"
                 style={{
@@ -124,15 +133,15 @@ export default function About() {
                   WebkitTextFillColor: "transparent",
                 }}
               >
-                माणुसकीचा श्वास.
+                {isEnglish ? "the spirit of humanity." : "माणुसकीचा श्वास."}
               </span>
             </h2>
 
             {/* Body */}
             <p className="text-purple-100/80 text-sm sm:text-base leading-relaxed max-w-md">
-              खुशहाल मुशायरा सोशल वेलफेअर &amp; चॅरिटेबल ट्रस्ट, महाराष्ट्र हा
-              समाजातील गरजू घटकांसाठी सेवा पोहोचवण्यासाठी समर्पित आहे. आम्ही
-              विश्वास ठेवतो की, एक छोटी मदत कोणाचे तरी जीवन बदलू शकते.
+              {isEnglish
+                ? "Khushhal Mushayra Social Welfare & Charitable Trust, Maharashtra is dedicated to serving people in need. We believe a small act of help can change someone's life."
+                : <>खुशहाल मुशायरा सोशल वेलफेअर &amp; चॅरिटेबल ट्रस्ट, महाराष्ट्र हा समाजातील गरजू घटकांसाठी सेवा पोहोचवण्यासाठी समर्पित आहे. आम्ही विश्वास ठेवतो की, एक छोटी मदत कोणाचे तरी जीवन बदलू शकते.</>}
             </p>
 
             {/* CTA */}
@@ -157,7 +166,7 @@ export default function About() {
                 className="btn-bg absolute inset-0 bg-green-500 origin-left rounded-full"
                 style={{ transform: "scaleX(0)", transition: "transform 0.3s ease" }}
               />
-              <span className="relative">आमच्याबद्दल अधिक जाणून घ्या</span>
+              <span className="relative">{isEnglish ? "Learn more about us" : "आमच्याबद्दल अधिक जाणून घ्या"}</span>
               <span className="relative">→</span>
             </button>
           </div>
@@ -189,7 +198,7 @@ export default function About() {
                   width="100%"
                   height="100%"
                   src="https://www.youtube.com/embed/5Lgg3-K0uTw"
-                  title="आमचा परिचय"
+                  title={isEnglish ? "Introduction to our trust" : "आमचा परिचय"}
                   frameBorder="0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
@@ -198,7 +207,7 @@ export default function About() {
 
                 {/* Corner badge */}
                 <div className="absolute top-3 right-3 bg-white/10 backdrop-blur-sm border border-white/20 rounded-xl px-3 py-1.5 z-20">
-                  <span className="text-white text-xs font-semibold">🎬 आमचा परिचय</span>
+                  <span className="text-white text-xs font-semibold">🎬 {isEnglish ? "Meet our trust" : "आमचा परिचय"}</span>
                 </div>
               </div>
             </div>
@@ -218,8 +227,8 @@ export default function About() {
                 >
                   <div className="flex-shrink-0">{v.icon}</div>
                   <div>
-                    <div className={`font-bold text-sm ${v.color}`}>{v.title}</div>
-                    <div className="text-purple-200/70 text-xs mt-0.5">{v.desc}</div>
+                    <div className={`font-bold text-sm ${v.color}`}>{isEnglish ? v.titleEn : v.title}</div>
+                    <div className="text-purple-200/70 text-xs mt-0.5">{isEnglish ? v.descEn : v.desc}</div>
                   </div>
                   {/* Right chevron */}
                   <div className="ml-auto text-white/20 text-lg">›</div>

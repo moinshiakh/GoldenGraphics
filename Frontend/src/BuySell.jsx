@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { Globe, ChevronRight, ChevronDown, Camera, MapPin, Tag, Plus, Sparkles, X, ChevronLeft } from "lucide-react";
 import Navbar from "./navbar";
 import Footer from "./footer";
+import { useLang } from "./useLang";
 
 const CATEGORIES = [
   { en: "CAR",       mr: "कार"        },
@@ -608,7 +609,7 @@ function ModePanel({ mode, modeColor, lang, isMobile }) {
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 export default function BuySell() {
-  const [lang, setLang] = useState("en");
+  const { lang, setLang } = useLang();
   const [langOpen, setLangOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [headerVisible, setHeaderVisible] = useState(false);
@@ -662,7 +663,7 @@ export default function BuySell() {
       <Footer />
 
       {/* Language FAB */}
-      <div style={{ position: "fixed", bottom: 24, right: 24, zIndex: 200 }}>
+      <div className="legacy-language-switcher" style={{ position: "fixed", bottom: 24, right: 24, zIndex: 200 }}>
         {langOpen && (
           <div style={{
             position: "absolute", bottom: 60, right: 0,

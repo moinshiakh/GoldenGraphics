@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useLang } from "./useLang";
 
 const newsItems = [
   {
@@ -6,46 +7,69 @@ const newsItems = [
     img: "https://images.unsplash.com/photo-1509062522246-3755977927d7?w=600&q=80",
     title: "स्वच्छता शिबिराचे आयोजन संपन्न",
     desc: "या शिबिरात 200+ स्वयंसेवकांनी सहभाग घेतला आणि परिसर स्वच्छतेचा संदेश दिला.",
+    titleEn: "Community cleanliness drive held",
+    descEn: "More than 200 volunteers joined the drive and shared a message of neighbourhood cleanliness.",
+    monthEn: "May",
   },
   {
     date: "28", month: "एप्रिल", year: "2024",
     img: "https://images.unsplash.com/photo-1522202176988-66273c2fd55f?w=600&q=80",
     title: "युवांसाठी करिअर विकास प्रशिक्षण",
     desc: "रोजगारासाठी उपयुक्त प्रशिक्षण आणि करिअर मार्गदर्शन शिबिर.",
+    titleEn: "Career development training for youth",
+    descEn: "A practical employment training and career guidance camp for young people.",
+    monthEn: "April",
   },
   {
     date: "15", month: "एप्रिल", year: "2024",
     img: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=80",
     title: "महिला बचत गट कार्यशाळा",
     desc: "महिलांच्या आर्थिक स्वावलंबनासाठी विशेष मार्गदर्शन कार्यक्रम.",
+    titleEn: "Workshop for women's self-help groups",
+    descEn: "A special guidance program to support women's financial independence.",
+    monthEn: "April",
   },
   {
     date: "05", month: "एप्रिल", year: "2024",
     img: "https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=600&q=80",
     title: "वृक्षारोपण मोहिम यशस्वी",
     desc: "2500 झाडे लावून पर्यावरण संवर्धनाचा संदेश दिला.",
+    titleEn: "Tree-planting campaign succeeds",
+    descEn: "The campaign planted 2,500 trees and promoted environmental conservation.",
+    monthEn: "April",
   },
   {
     date: "22", month: "मार्च", year: "2024",
     img: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?w=600&q=80",
     title: "आरोग्य तपासणी शिबिर आयोजित",
     desc: "500 पेक्षा अधिक रुग्णांना मोफत आरोग्य सेवा पुरविण्यात आली.",
+    titleEn: "Community health check-up camp",
+    descEn: "More than 500 patients received free healthcare services.",
+    monthEn: "April",
   },
   {
     date: "18", month: "मार्च", year: "2024",
     img: "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?w=600&q=80",
     title: "शालेय विद्यार्थ्यांसाठी शिष्यवृत्ती",
     desc: "गरजू विद्यार्थ्यांना शिष्यवृत्ती देऊन शिक्षणास प्रोत्साहन दिले.",
+    titleEn: "Scholarships for school students",
+    descEn: "Scholarships helped students in need continue their education.",
+    monthEn: "March",
   },
   {
     date: "08", month: "मार्च", year: "2024",
     img: "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=600&q=80",
     title: "डिजिटल साक्षरता कार्यक्रम",
     desc: "ग्रामीण भागातील नागरिकांना डिजिटल तंत्रज्ञानाचे प्रशिक्षण दिले.",
+    titleEn: "Digital literacy program",
+    descEn: "Residents in rural communities received training in digital technology.",
+    monthEn: "March",
   },
 ];
 
 export default function News() {
+  const { lang } = useLang();
+  const isEnglish = lang === "en";
   const [current, setCurrent] = useState(0);
   const [animating, setAnimating] = useState(false);
   const [dir, setDir] = useState(null);
@@ -157,7 +181,7 @@ export default function News() {
             <div className="h-[2px] w-16 sm:w-24" style={{background:"linear-gradient(90deg,transparent,#e91e8c)"}} />
             <span className="w-[9px] h-[9px] rounded-full bg-[#e91e8c] flex-shrink-0" />
             <h2 className="text-[20px] sm:text-[24px] lg:text-[26px] font-extrabold text-gray-800 whitespace-nowrap">
-              बातम्या आणि उपक्रम
+              {isEnglish ? "News and initiatives" : "बातम्या आणि उपक्रम"}
             </h2>
             <span className="w-[9px] h-[9px] rounded-full bg-[#e91e8c] flex-shrink-0" />
             <div className="h-[2px] w-16 sm:w-24" style={{background:"linear-gradient(90deg,#e91e8c,transparent)"}} />
@@ -202,7 +226,7 @@ export default function News() {
                     {/* Date badge */}
                     <div className="absolute bottom-3 left-3 bg-white rounded-xl shadow-md px-3 py-[5px] text-center min-w-[54px]">
                       <div className="text-[20px] font-black leading-none text-gray-800">{item.date}</div>
-                      <div className="text-[11px] text-gray-500 leading-tight mt-[1px]">{item.month}</div>
+                      <div className="text-[11px] text-gray-500 leading-tight mt-[1px]">{isEnglish ? item.monthEn : item.month}</div>
                       <div className="text-[10px] text-gray-400 leading-tight">{item.year}</div>
                     </div>
                   </div>
@@ -210,13 +234,13 @@ export default function News() {
                   {/* Text */}
                   <div className="p-4 flex flex-col gap-2 flex-1">
                     <h3 className="font-extrabold text-[14px] sm:text-[15px] text-gray-800 leading-snug">
-                      {item.title}
+                      {isEnglish ? item.titleEn : item.title}
                     </h3>
                     <p className="text-gray-500 text-[12px] sm:text-[13px] leading-relaxed flex-1">
-                      {item.desc}
+                      {isEnglish ? item.descEn : item.desc}
                     </p>
                     <a href="#" className="read-more text-[#1565c0] font-bold text-[13px] mt-1 inline-block">
-                      वाचा अधिक →
+                      {isEnglish ? "Read more" : "वाचा अधिक"} →
                     </a>
                   </div>
 

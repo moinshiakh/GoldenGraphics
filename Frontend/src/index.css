@@ -16,6 +16,10 @@ body {
   min-height: 100vh;
 }
 
+.legacy-language-switcher {
+  display: none !important;
+}
+
 /* CTA  */
 
 /* Left Gradient:

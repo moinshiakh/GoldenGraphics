@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import Navbar from "./navbar";
 import Footer from "./footer";
+import { useLang } from "./useLang";
 
 // ─── Design tokens ────────────────────────────────────────────────────────────
 const T = {
@@ -36,67 +37,112 @@ const T = {
 // ─── Data ─────────────────────────────────────────────────────────────────────
 const JOBS = [
   {
-    id:1, shopName:"सिद्धा नर्सरी", jobType:"नर्सरी कामासाठी कामगार",
-    gender:"लेडीज / जेन्टस्", phone:"८८९९६६५९३३",
-    address:"कराड, सातारा", salary:"₹८,०००–१२,०००/महिना",
-    posted:"२ दिवसांपूर्वी", type:"पूर्णवेळ", openings:3,
-    verified:true, tag:"urgent",
+    id:1,
+    shopName_mr:"सिद्धा नर्सरी",         shopName_en:"Siddha Nursery",
+    jobType_mr:"नर्सरी कामासाठी कामगार",  jobType_en:"Nursery Worker",
+    gender_mr:"लेडीज / जेन्टस्",          gender_en:"Ladies / Gents",
+    phone:"8899665933",
+    address_mr:"कराड, सातारा",            address_en:"Karad, Satara",
+    salary_mr:"₹८,०००–१२,०००/महिना",     salary_en:"₹8,000–12,000/month",
+    posted_mr:"२ दिवसांपूर्वी",           posted_en:"2 days ago",
+    type_mr:"पूर्णवेळ",                   type_en:"Full-time",
+    openings:3, verified:true, tag:"urgent",
   },
   {
-    id:2, shopName:"अरब ट्रेडर्स", jobType:"दुकान सहाय्यक",
-    gender:"जेन्टस्", phone:"९०२९२५६६३३",
-    address:"स्टँड परिसर, कराड", salary:"₹७,०००–१०,०००/महिना",
-    posted:"५ दिवसांपूर्वी", type:"पूर्णवेळ", openings:1,
-    verified:true, tag:"",
+    id:2,
+    shopName_mr:"अरब ट्रेडर्स",           shopName_en:"Arab Traders",
+    jobType_mr:"दुकान सहाय्यक",           jobType_en:"Shop Assistant",
+    gender_mr:"जेन्टस्",                  gender_en:"Gents",
+    phone:"9029256633",
+    address_mr:"स्टँड परिसर, कराड",       address_en:"Stand Area, Karad",
+    salary_mr:"₹७,०००–१०,०००/महिना",     salary_en:"₹7,000–10,000/month",
+    posted_mr:"५ दिवसांपूर्वी",           posted_en:"5 days ago",
+    type_mr:"पूर्णवेळ",                   type_en:"Full-time",
+    openings:1, verified:true, tag:"",
   },
   {
-    id:3, shopName:"निमिशा हॉस्पिटल", jobType:"रिसेप्शनिस्ट / ऑफिस लेडी",
-    gender:"लेडीज", phone:"९०२३१४७०८६",
-    address:"दत्त चौक, कराड", salary:"₹१०,०००–१५,०००/महिना",
-    posted:"१ दिवसापूर्वी", type:"पूर्णवेळ", openings:2,
-    verified:true, tag:"new",
+    id:3,
+    shopName_mr:"निमिशा हॉस्पिटल",        shopName_en:"Nimisha Hospital",
+    jobType_mr:"रिसेप्शनिस्ट / ऑफिस लेडी", jobType_en:"Receptionist / Office Lady",
+    gender_mr:"लेडीज",                    gender_en:"Ladies",
+    phone:"9023147086",
+    address_mr:"दत्त चौक, कराड",          address_en:"Datta Chowk, Karad",
+    salary_mr:"₹१०,०००–१५,०००/महिना",    salary_en:"₹10,000–15,000/month",
+    posted_mr:"१ दिवसापूर्वी",            posted_en:"1 day ago",
+    type_mr:"पूर्णवेळ",                   type_en:"Full-time",
+    openings:2, verified:true, tag:"new",
   },
   {
-    id:4, shopName:"कराड मेडिकल", jobType:"डिलिव्हरी बॉय",
-    gender:"जेन्टस्", phone:"९८२३४५६७८९",
-    address:"मुख्य बाजारपेठ, कराड", salary:"₹६,०००–८,०००/महिना",
-    posted:"३ दिवसांपूर्वी", type:"अर्धवेळ", openings:2,
-    verified:false, tag:"",
+    id:4,
+    shopName_mr:"कराड मेडिकल",            shopName_en:"Karad Medical",
+    jobType_mr:"डिलिव्हरी बॉय",           jobType_en:"Delivery Boy",
+    gender_mr:"जेन्टस्",                  gender_en:"Gents",
+    phone:"9823456789",
+    address_mr:"मुख्य बाजारपेठ, कराड",   address_en:"Main Market, Karad",
+    salary_mr:"₹६,०००–८,०००/महिना",      salary_en:"₹6,000–8,000/month",
+    posted_mr:"३ दिवसांपूर्वी",           posted_en:"3 days ago",
+    type_mr:"अर्धवेळ",                    type_en:"Part-time",
+    openings:2, verified:false, tag:"",
   },
   {
-    id:5, shopName:"श्री साई हॉटेल", jobType:"हॉटेल कामगार / वेटर",
-    gender:"लेडीज / जेन्टस्", phone:"९७१२३४५६७८",
-    address:"एसटी स्टँड जवळ, कराड", salary:"₹७,५००–११,०००/महिना",
-    posted:"आज", type:"पूर्णवेळ", openings:4,
-    verified:true, tag:"urgent",
+    id:5,
+    shopName_mr:"श्री साई हॉटेल",         shopName_en:"Shri Sai Hotel",
+    jobType_mr:"हॉटेल कामगार / वेटर",     jobType_en:"Hotel Worker / Waiter",
+    gender_mr:"लेडीज / जेन्टस्",          gender_en:"Ladies / Gents",
+    phone:"9712345678",
+    address_mr:"एसटी स्टँड जवळ, कराड",   address_en:"Near ST Stand, Karad",
+    salary_mr:"₹७,५००–११,०००/महिना",     salary_en:"₹7,500–11,000/month",
+    posted_mr:"आज",                       posted_en:"Today",
+    type_mr:"पूर्णवेळ",                   type_en:"Full-time",
+    openings:4, verified:true, tag:"urgent",
   },
   {
-    id:6, shopName:"कराड ऑटो वर्क्स", jobType:"मेकॅनिक / हेल्पर",
-    gender:"जेन्टस्", phone:"९०११२३४५६७",
-    address:"इंडस्ट्रियल एरिया, कराड", salary:"₹९,०००–१४,०००/महिना",
-    posted:"७ दिवसांपूर्वी", type:"पूर्णवेळ", openings:1,
-    verified:false, tag:"",
+    id:6,
+    shopName_mr:"कराड ऑटो वर्क्स",        shopName_en:"Karad Auto Works",
+    jobType_mr:"मेकॅनिक / हेल्पर",        jobType_en:"Mechanic / Helper",
+    gender_mr:"जेन्टस्",                  gender_en:"Gents",
+    phone:"9011234567",
+    address_mr:"इंडस्ट्रियल एरिया, कराड", address_en:"Industrial Area, Karad",
+    salary_mr:"₹९,०००–१४,०००/महिना",     salary_en:"₹9,000–14,000/month",
+    posted_mr:"७ दिवसांपूर्वी",           posted_en:"7 days ago",
+    type_mr:"पूर्णवेळ",                   type_en:"Full-time",
+    openings:1, verified:false, tag:"",
   },
   {
-    id:7, shopName:"स्वराज क्लोदिंग", jobType:"शोरूम सेल्स एक्झिक्युटिव्ह",
-    gender:"लेडीज", phone:"९४५६७८९०१२",
-    address:"गांधी चौक, कराड", salary:"₹१०,०००–१६,०००/महिना",
-    posted:"आज", type:"पूर्णवेळ", openings:3,
-    verified:true, tag:"new",
+    id:7,
+    shopName_mr:"स्वराज क्लोदिंग",         shopName_en:"Swaraj Clothing",
+    jobType_mr:"शोरूम सेल्स एक्झिक्युटिव्ह", jobType_en:"Showroom Sales Executive",
+    gender_mr:"लेडीज",                    gender_en:"Ladies",
+    phone:"9456789012",
+    address_mr:"गांधी चौक, कराड",         address_en:"Gandhi Chowk, Karad",
+    salary_mr:"₹१०,०००–१६,०००/महिना",    salary_en:"₹10,000–16,000/month",
+    posted_mr:"आज",                       posted_en:"Today",
+    type_mr:"पूर्णवेळ",                   type_en:"Full-time",
+    openings:3, verified:true, tag:"new",
   },
   {
-    id:8, shopName:"कराड डेअरी", jobType:"डेअरी कामगार / पॅकेजिंग",
-    gender:"लेडीज / जेन्टस्", phone:"९८७६५४३२१०",
-    address:"को-ऑप सोसायटी, कराड", salary:"₹५,५००–८,०००/महिना",
-    posted:"४ दिवसांपूर्वी", type:"पूर्णवेळ", openings:5,
-    verified:true, tag:"",
+    id:8,
+    shopName_mr:"कराड डेअरी",             shopName_en:"Karad Dairy",
+    jobType_mr:"डेअरी कामगार / पॅकेजिंग", jobType_en:"Dairy Worker / Packaging",
+    gender_mr:"लेडीज / जेन्टस्",          gender_en:"Ladies / Gents",
+    phone:"9876543210",
+    address_mr:"को-ऑप सोसायटी, कराड",    address_en:"Co-op Society, Karad",
+    salary_mr:"₹५,५००–८,०००/महिना",      salary_en:"₹5,500–8,000/month",
+    posted_mr:"४ दिवसांपूर्वी",           posted_en:"4 days ago",
+    type_mr:"पूर्णवेळ",                   type_en:"Full-time",
+    openings:5, verified:true, tag:"",
   },
   {
-    id:9, shopName:"विद्यापीठ कोचिंग", jobType:"शिक्षक / ट्युटर",
-    gender:"लेडीज / जेन्टस्", phone:"९१२३४५६७८९",
-    address:"कॉलेज रोड, कराड", salary:"₹१२,०००–२०,०००/महिना",
-    posted:"२ दिवसांपूर्वी", type:"अर्धवेळ", openings:2,
-    verified:true, tag:"new",
+    id:9,
+    shopName_mr:"विद्यापीठ कोचिंग",       shopName_en:"Vidyapeeth Coaching",
+    jobType_mr:"शिक्षक / ट्युटर",         jobType_en:"Teacher / Tutor",
+    gender_mr:"लेडीज / जेन्टस्",          gender_en:"Ladies / Gents",
+    phone:"9123456789",
+    address_mr:"कॉलेज रोड, कराड",         address_en:"College Road, Karad",
+    salary_mr:"₹१२,०००–२०,०००/महिना",    salary_en:"₹12,000–20,000/month",
+    posted_mr:"२ दिवसांपूर्वी",           posted_en:"2 days ago",
+    type_mr:"अर्धवेळ",                    type_en:"Part-time",
+    openings:2, verified:true, tag:"new",
   },
 ];
 
@@ -149,6 +195,14 @@ function JobCard({ job, index, lang, saved, onSave }) {
     saved:    lang==="mr" ? "जतन झाले"     : "Saved",
   };
 
+  const shopName = job[`shopName_${lang}`];
+  const jobType  = job[`jobType_${lang}`];
+  const gender   = job[`gender_${lang}`];
+  const address  = job[`address_${lang}`];
+  const salary   = job[`salary_${lang}`];
+  const posted   = job[`posted_${lang}`];
+  const type     = job[`type_${lang}`];
+
   return (
     <div
       ref={ref}
@@ -186,13 +240,13 @@ function JobCard({ job, index, lang, saved, onSave }) {
             margin:0, fontSize:"clamp(0.88rem,2vw,1rem)",
             fontWeight:700, color:T.text, lineHeight:1.3,
             fontFamily:T.font,
-          }}>{job.jobType}</h3>
+          }}>{jobType}</h3>
           <div style={{
             display:"flex", alignItems:"center", gap:5,
             marginTop:4, fontSize:"0.8rem", color:T.textSub, fontWeight:500,
           }}>
             <Building2 size={13} color={T.brand}/>
-            <span>{job.shopName}</span>
+            <span>{shopName}</span>
           </div>
         </div>
         {/* Bookmark */}
@@ -215,10 +269,10 @@ function JobCard({ job, index, lang, saved, onSave }) {
       {/* Meta chips */}
       <div style={{ display:"flex", gap:6, flexWrap:"wrap" }}>
         {[
-          { icon:<MapPin size={11}/>,    text:job.address },
-          { icon:<Briefcase size={11}/>, text:job.type },
+          { icon:<MapPin size={11}/>,    text:address },
+          { icon:<Briefcase size={11}/>, text:type },
           { icon:<Users size={11}/>,     text:`${job.openings} ${L.openings}` },
-          { icon:<Clock size={11}/>,     text:job.posted },
+          { icon:<Clock size={11}/>,     text:posted },
         ].map((m,i) => (
           <span key={i} style={{
             display:"inline-flex", alignItems:"center", gap:4,
@@ -236,13 +290,13 @@ function JobCard({ job, index, lang, saved, onSave }) {
       <div style={{ display:"flex", alignItems:"center", justifyContent:"space-between", gap:8 }}>
         <div style={{ display:"flex", alignItems:"center", gap:4 }}>
           <UserCheck size={13} color={T.textMuted}/>
-          <span style={{ fontSize:"0.76rem", color:T.textSub }}>{job.gender}</span>
+          <span style={{ fontSize:"0.76rem", color:T.textSub }}>{gender}</span>
         </div>
         <span style={{
           fontSize:"0.8rem", fontWeight:700, color:T.green,
           background:T.greenSoft, padding:"2px 10px", borderRadius:20,
           border:"1px solid #bbf7d0",
-        }}>{job.salary}</span>
+        }}>{salary}</span>
       </div>
 
       {/* Divider */}
@@ -252,7 +306,6 @@ function JobCard({ job, index, lang, saved, onSave }) {
       <div style={{ display:"flex", gap:8 }}>
         <a
           href={`tel:${job.phone}`}
-          onClick={e => e.stopPropagation()}
           style={{
             flex:1, display:"flex", alignItems:"center",
             justifyContent:"center", gap:6,
@@ -400,7 +453,7 @@ function PostJobModal({ lang, onClose }) {
                   <select style={{...inputStyle, cursor:"pointer"}}
                     value={form.gender} onChange={e=>setForm(p=>({...p,gender:e.target.value}))}
                     onFocus={focus} onBlur={blur}>
-                    <option value="">निवडा</option>
+                    <option value="">{lang==="mr" ? "निवडा" : "Select"}</option>
                     {(lang==="mr"?GENDER_MR:GENDER_EN).map(g=><option key={g} value={g}>{g}</option>)}
                   </select>
                 </div>
@@ -422,7 +475,7 @@ function PostJobModal({ lang, onClose }) {
             <div style={{ display:"flex", flexDirection:"column", gap:14 }}>
               <div>
                 <label style={labelStyle}>{L.phone}</label>
-                <input style={inputStyle} placeholder="मो. ९८९९९९९९९९" type="tel"
+                <input style={inputStyle} placeholder={lang==="mr" ? "मो. ९८९९९९९९९९" : "e.g. 9899999999"} type="tel"
                   value={form.phone} onChange={e=>setForm(p=>({...p,phone:e.target.value}))}
                   onFocus={focus} onBlur={blur} />
               </div>
@@ -468,7 +521,7 @@ function PostJobModal({ lang, onClose }) {
 
 // ─── Main ─────────────────────────────────────────────────────────────────────
 export default function JobPortal() {
-  const [lang, setLang]           = useState("mr");
+  const { lang, setLang } = useLang();
   const [langOpen, setLangOpen]   = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [saved, setSaved]         = useState(new Set());
@@ -514,12 +567,16 @@ export default function JobPortal() {
   const filtered = JOBS.filter(j => {
     const q = search.toLowerCase();
     const matchSearch = !q
-      || j.jobType.toLowerCase().includes(q)
-      || j.shopName.toLowerCase().includes(q)
-      || j.address.toLowerCase().includes(q);
-    const matchType   = !filterType   || j.type === filterType;
-    const matchGender = !filterGender || filterGender === (lang==="mr"?"सर्व":"All")
-      || j.gender.includes(filterGender);
+      || j.jobType_en.toLowerCase().includes(q)
+      || j.jobType_mr.includes(q)
+      || j.shopName_en.toLowerCase().includes(q)
+      || j.shopName_mr.includes(q)
+      || j.address_en.toLowerCase().includes(q)
+      || j.address_mr.includes(q);
+    const matchType   = !filterType || j.type_en === filterType || j.type_mr === filterType;
+    const matchGender = !filterGender
+      || filterGender === "All" || filterGender === "सर्व"
+      || j.gender_en.includes(filterGender) || j.gender_mr.includes(filterGender);
     return matchSearch && matchType && matchGender;
   });
 
@@ -747,7 +804,7 @@ export default function JobPortal() {
       <Footer/>
 
       {/* ── Language FAB ── */}
-      <div style={{ position:"fixed", bottom:24, right:24, zIndex:300 }}>
+      <div className="legacy-language-switcher" style={{ position:"fixed", bottom:24, right:24, zIndex:300 }}>
         {langOpen && (
           <div style={{
             position:"absolute", bottom:62, right:0,

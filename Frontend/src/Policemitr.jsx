@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import Navbar from "./navbar";
 import Footer from "./footer";
+import { useLang } from "./useLang";
 
 // ── Design tokens (Police / Govt of Maharashtra) ──────────────────────────────
 const T = {
@@ -309,7 +310,7 @@ function MitrForm({ lang, selectedType, onTypeSelect }) {
 
 // ── Main Page ─────────────────────────────────────────────────────────────────
 export default function PoliceMitr() {
-  const [lang, setLang]         = useState("mr");
+  const { lang, setLang } = useLang();
   const [langOpen, setLangOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [headerVis, setHeaderVis] = useState(false);
@@ -593,7 +594,7 @@ export default function PoliceMitr() {
       <Footer/>
 
       {/* ── Language FAB ── */}
-      <div style={{ position:"fixed", bottom:24, right:24, zIndex:300 }}>
+      <div className="legacy-language-switcher" style={{ position:"fixed", bottom:24, right:24, zIndex:300 }}>
         {langOpen && (
           <div style={{ position:"absolute", bottom:62, right:0, background:"white", borderRadius:T.radius, boxShadow:T.shadowHov, overflow:"hidden", minWidth:148, animation:"slideUp 0.17s ease both", border:`1px solid ${T.border}` }}>
             {[{code:"mr",label:"🇮🇳  मराठी"},{code:"en",label:"🇬🇧  English"}].map(o=>(

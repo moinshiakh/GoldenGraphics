@@ -8,6 +8,7 @@ import {
 } from "lucide-react";
 import Navbar from "./navbar";
 import Footer from "./footer";
+import { useLang } from "./useLang";
 
 // ── Design tokens ─────────────────────────────────────────────────────────────
 const T = {
@@ -525,7 +526,7 @@ function SocialBtn({ icon, label, href, color }) {
 
 // ── Main Component ────────────────────────────────────────────────────────────
 export default function MuktVyaspeeth() {
-  const [lang, setLang]         = useState("mr");
+  const { lang, setLang } = useLang();
   const [langOpen, setLangOpen] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const [activeTab, setActiveTab] = useState(null); // null = all visible on desktop
@@ -854,7 +855,7 @@ export default function MuktVyaspeeth() {
       <Footer/>
 
       {/* ── Language FAB ── */}
-      <div style={{ position:"fixed", bottom:24, right:24, zIndex:300 }}>
+      <div className="legacy-language-switcher" style={{ position:"fixed", bottom:24, right:24, zIndex:300 }}>
         {langOpen && (
           <div style={{ position:"absolute", bottom:60, right:0, background:"white", borderRadius:T.radius, boxShadow:T.shadowHov, overflow:"hidden", minWidth:148, animation:"slideUp 0.17s ease both", border:`1px solid ${T.border}` }}>
             {[{code:"mr",label:"🇮🇳  मराठी"},{code:"en",label:"🇬🇧  English"}].map(o=>(

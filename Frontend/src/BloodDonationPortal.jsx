@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import { Search, MapPin, Phone, Droplets, Globe, Filter } from "lucide-react";
 import Navbar from "./navbar";
 import Footer from "./footer";
+import { useLang } from "./useLang";
 
 const T = {
   en: {
@@ -322,7 +323,7 @@ function RegisterForm({ t }) {
 export default function BloodDonationPortal() {
   const [search, setSearch] = useState("");
   const [activeGroup, setActiveGroup] = useState("All");
-  const [lang, setLang] = useState("en");
+  const { lang, setLang } = useLang();
   const [langOpen, setLangOpen] = useState(false);
   const t = T[lang];
 
@@ -446,7 +447,7 @@ export default function BloodDonationPortal() {
       <Footer />
 
       {/* Language Switcher FAB */}
-      <div style={{ position: "fixed", bottom: 24, right: 24, zIndex: 100 }}>
+      <div className="legacy-language-switcher" style={{ position: "fixed", bottom: 24, right: 24, zIndex: 100 }}>
         {langOpen && (
           <div style={{
             position: "absolute", bottom: 58, right: 0,

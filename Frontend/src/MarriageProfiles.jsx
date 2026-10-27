@@ -13,6 +13,7 @@
 import { useState, useEffect, useRef, useMemo, useCallback } from "react";
 import Navbar from "./navbar";
 import Footer from "./footer";
+import { useLang } from "./useLang";
 
 const API = import.meta.env?.VITE_API_URL || "http://localhost:5000";
 const PAGE_SIZE = 8; // 4 columns × 2 rows on desktop — same as the reference layout
@@ -430,7 +431,7 @@ export default function MarriageProfiles() {
   const isMobile = width < 720;
   const cols = width < 520 ? 1 : width < 860 ? 2 : width < 1120 ? 3 : 4;
 
-  const [lang, setLang] = useState("mr");
+  const { lang, setLang } = useLang();
   const [langOpen, setLangOpen] = useState(false);
   const [gender, setGender] = useState("bride");
   const [open, setOpen] = useState(true);
@@ -520,7 +521,7 @@ export default function MarriageProfiles() {
       {modal && <BioModal p={modal} lang={lang} onClose={() => setModal(null)} />}
 
       {/* Language FAB */}
-      <div className="no-print" style={{ position: "fixed", bottom: 24, right: 24, zIndex: 300 }}>
+      <div className="no-print legacy-language-switcher" style={{ position: "fixed", bottom: 24, right: 24, zIndex: 300 }}>
         {langOpen && (
           <div style={{ position: "absolute", bottom: 60, right: 0, background: "#fff", borderRadius: T.radius, boxShadow: T.shadowHov, overflow: "hidden", minWidth: 148, border: `1px solid ${T.border}`, animation: "mpUp .17s ease both" }}>
             {[{ code: "mr", label: "🇮🇳  मराठी" }, { code: "en", label: "🇬🇧  English" }].map(o => (

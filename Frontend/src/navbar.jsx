@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { useLang } from "./useLang";
 
 /* ── Design tokens — matches all portal pages ─────────────────────────────── */
 const T = {
@@ -22,14 +23,45 @@ const T = {
   font:      "'Noto Sans Devanagari','Noto Sans','Segoe UI',system-ui,sans-serif",
 };
 
-const NAV_LINKS = [
-  { mr:"होम",        en:"Home" },
-  { mr:"आमच्याबद्दल", en:"About Us" },
-  { mr:"सेवा",        en:"Services" },
-  { mr:"उपक्रम",      en:"Initiatives" },
-  { mr:"गॅलरी",       en:"Gallery" },
-  { mr:"बातम्या",     en:"News" },
-  { mr:"संपर्क",      en:"Contact" },
+/* ── Nav Icon SVGs (matching image exactly) ─────────────────────── */
+const HomeIcon = ({ size = 18, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+    <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/>
+  </svg>
+);
+const AboutIcon = ({ size = 18, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+  </svg>
+);
+const ServiceIcon = ({ size = 18, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+    <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402C1 3.759 4.068 2 6.5 2 8.982 2 10.5 3.5 12 5c1.5-1.5 3.018-3 5.5-3C19.932 2 23 3.759 23 7.191c0 4.105-5.37 8.863-11 14.402z"/>
+  </svg>
+);
+const InitiativeIcon = ({ size = 18, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+    <path d="M20 7H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V9c0-1.1-.9-2-2-2zm-8 9c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zM3 6h18V4H3v2z"/>
+  </svg>
+);
+const GalleryIcon = ({ size = 18, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+    <path d="M21 19V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2zM8.5 13.5l2.5 3.01L14.5 12l4.5 6H5l3.5-4.5z"/>
+  </svg>
+);
+const NewsIcon = ({ size = 18, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+    <path d="M20 3H4v10c0 2.21 1.79 4 4 4h6c2.21 0 4-1.79 4-4v-3h2c1.11 0 2-.89 2-2V5c0-1.11-.89-2-2-2zm0 5h-2V5h2v3zM4 19h16v2H4z"/>
+  </svg>
+);
+const ContactIcon = ({ size = 18, color = "currentColor" }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+    <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/>
+  </svg>
+);
+
+const NAV_ICON_MAP = [
+  HomeIcon, AboutIcon, ServiceIcon, InitiativeIcon, GalleryIcon, NewsIcon, ContactIcon,
 ];
 
 /* ── SVG Social Icons (inline — no external deps) ───────────────────────────── */
@@ -73,14 +105,14 @@ const HeartSVG = () => (
   </svg>
 );
 const MenuSVG = () => (
-  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2">
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
     <line x1="3" y1="6" x2="21" y2="6"/>
-    <line x1="3" y1="12" x2="21" y2="12"/>
-    <line x1="3" y1="18" x2="21" y2="18"/>
+    <line x1="6" y1="12" x2="21" y2="12"/>
+    <line x1="9" y1="18" x2="21" y2="18"/>
   </svg>
 );
 const CloseSVG = () => (
-  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2">
+  <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round">
     <line x1="18" y1="6" x2="6" y2="18"/>
     <line x1="6" y1="6" x2="18" y2="18"/>
   </svg>
@@ -113,8 +145,9 @@ function SocialPill({ icon, label, color }) {
 }
 
 /* ── Nav Link (desktop) ─────────────────────────────────────────────────────── */
-function NavLink({ label, active, onClick }) {
+function NavLink({ label, Icon, active, onClick }) {
   const [hov, setHov] = useState(false);
+  const col = active ? T.green : hov ? T.saffron : T.text;
   return (
     <button
       onClick={onClick}
@@ -122,28 +155,31 @@ function NavLink({ label, active, onClick }) {
       onMouseLeave={() => setHov(false)}
       style={{
         position: "relative",
-        padding: "14px 14px",
-        background: "none",
+        padding: "18px 16px",
+        background: active ? `${T.green}0d` : hov ? `${T.saffron}0a` : "none",
         border: "none",
         cursor: "pointer",
         fontFamily: T.font,
-        fontSize: "1rem",
+        fontSize: "0.93rem",
         fontWeight: active ? 800 : 600,
-        color: active ? T.green : hov ? T.saffron : T.text,
+        color: col,
         letterSpacing: "0.1px",
-        transition: "color 0.18s ease",
+        transition: "color 0.18s ease, background 0.18s ease",
         whiteSpace: "nowrap",
+        display: "flex",
+        alignItems: "center",
+        gap: 6,
       }}
     >
+      <Icon size={17} color={col} />
       {label}
-      {/* Animated underline */}
       <span style={{
         position: "absolute",
-        bottom: 8,
+        bottom: 10,
         left: active ? "10%" : hov ? "10%" : "50%",
         right: active ? "10%" : hov ? "10%" : "50%",
-        height: 2,
-        background: T.saffron,
+        height: 2.5,
+        background: active ? T.green : T.saffron,
         borderRadius: 2,
         transition: "left 0.22s cubic-bezier(0.4,0,0.2,1), right 0.22s cubic-bezier(0.4,0,0.2,1), opacity 0.18s",
         opacity: active || hov ? 1 : 0,
@@ -153,10 +189,11 @@ function NavLink({ label, active, onClick }) {
 }
 
 /* ── Mobile Drawer Link ─────────────────────────────────────────────────────── */
-function DrawerLink({ label, active, onClick, index }) {
+function DrawerLink({ label, Icon, active, onClick, index }) {
   const [hov, setHov] = useState(false);
   const on  = () => setHov(true);
   const off = () => setHov(false);
+  const col = active ? T.saffron : hov ? T.green : T.textSub;
   return (
     <button
       onClick={onClick}
@@ -165,7 +202,7 @@ function DrawerLink({ label, active, onClick, index }) {
       style={{
         width: "100%",
         textAlign: "left",
-        padding: "16px 18px",
+        padding: "15px 20px",
         background: active
           ? `linear-gradient(90deg, ${T.green}22, transparent)`
           : hov ? `linear-gradient(90deg, ${T.saffron}18, transparent)` : "transparent",
@@ -175,12 +212,24 @@ function DrawerLink({ label, active, onClick, index }) {
         fontFamily: T.font,
         fontSize: "1rem",
         fontWeight: active ? 700 : 500,
-        color: active ? T.saffron : hov ? T.green : T.textSub,
+        color: col,
         transition: "all 0.18s ease",
         animation: `drawerIn 0.2s ease ${index * 0.035}s both`,
         transform: hov && !active ? "translateX(4px)" : "none",
+        display: "flex",
+        alignItems: "center",
+        gap: 12,
       }}
     >
+      <span style={{
+        width: 36, height: 36, borderRadius: 9, flexShrink: 0,
+        background: active ? `${T.saffron}20` : hov ? `${T.saffron}14` : `${T.green}0e`,
+        border: `1.5px solid ${active ? T.saffron+"44" : hov ? T.saffron+"28" : T.green+"20"}`,
+        display: "flex", alignItems: "center", justifyContent: "center",
+        transition: "all 0.18s ease",
+      }}>
+        <Icon size={18} color={col} />
+      </span>
       {label}
     </button>
   );
@@ -217,6 +266,7 @@ function ContactChip({ icon, text, href }) {
 
 /* ── Donate Button ──────────────────────────────────────────────────────────── */
 function DonateBtn({ isMobile }) {
+  const { t } = useLang();
   const [hov, setHov] = useState(false);
   const [pressed, setPressed] = useState(false);
   return (
@@ -249,7 +299,7 @@ function DonateBtn({ isMobile }) {
       }}
     >
       <HeartSVG/>
-      दान करा
+      {t.donate}
     </button>
   );
 }
@@ -258,6 +308,14 @@ function DonateBtn({ isMobile }) {
    MAIN NAVBAR
 ════════════════════════════════════════════════════════════════════════════ */
 export default function Navbar() {
+  const { lang, setLang, LANG_OPTIONS, t } = useLang();
+  const NAV_LINKS = [
+    { label: t.nav.home,        Icon: NAV_ICON_MAP[0] },
+    { label: t.nav.about,       Icon: NAV_ICON_MAP[1] },
+    { label: t.nav.services,    Icon: NAV_ICON_MAP[2] },
+    { label: t.nav.initiatives, Icon: NAV_ICON_MAP[3] },
+    { label: "सदस्य बना",        Icon: NAV_ICON_MAP[4] },
+  ];
   const [active,   setActive]   = useState(0);
   const [open,     setOpen]     = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -292,13 +350,6 @@ export default function Navbar() {
           transition: "box-shadow 0.3s ease",
         }}
       >
-        {/* ── Maharashtra tricolor stripe ── */}
-        <div style={{ display:"flex", height: 4 }}>
-          {["#ff9933","#ffffff","#138808"].map((c,i)=>
-            <div key={i} style={{ flex:1, background:c }}/>
-          )}
-        </div>
-
         {/* ── TOP BAR ── */}
         <div style={{ background: "#1a4731" }}>
           <div id="navbar-top-grid" style={{
@@ -332,10 +383,10 @@ export default function Navbar() {
               {/* Name */}
               <div id="navbar-brand-copy" style={{ minWidth:0 }}>
                 <div id="navbar-brand-title" style={{ color:"white", fontWeight:900, fontSize:"clamp(1.15rem,3vw,1.55rem)", lineHeight:1.2, letterSpacing:"0.1px", whiteSpace:"nowrap", marginBottom:4 }}>
-                  खुशहाल मुशायरा
+                  {t.brandName}
                 </div>
                 <div id="navbar-brand-subtitle" style={{ color:"rgba(255,255,255,0.75)", fontSize:"clamp(0.7rem,1.5vw,0.82rem)", lineHeight:1.4, letterSpacing:"0.4px" }}>
-                  सोशल वेलफेअर &amp; चॅरिटेबल ट्रस्ट, महाराष्ट्र
+                  {t.brandSub}
                 </div>
               </div>
             </div>
@@ -360,24 +411,55 @@ export default function Navbar() {
               {/* Divider */}
               <div style={{ width:1, height:20, background:"rgba(255,255,255,0.15)", margin:"0 2px" }}/>
 
+              <label htmlFor="site-language" className="sr-only">Language</label>
+              <select
+                id="site-language"
+                value={lang}
+                onChange={(event) => setLang(event.target.value)}
+                aria-label="Select language"
+                style={{
+                  height: 36,
+                  maxWidth: 112,
+                  padding: "0 8px",
+                  borderRadius: 8,
+                  border: "1px solid rgba(255,255,255,0.28)",
+                  background: "#245a3d",
+                  color: "white",
+                  fontFamily: T.font,
+                  fontSize: "0.82rem",
+                  cursor: "pointer",
+                }}
+              >
+                {LANG_OPTIONS.map((option) => (
+                  <option key={option.code} value={option.code}>
+                    {option.flag} {option.label}
+                  </option>
+                ))}
+              </select>
+
               <div id="navbar-donate"><DonateBtn/></div>
 
-              {/* Hamburger — mobile only */}
+              {/* Hamburger — visibility controlled purely by CSS */}
               <button
                 onClick={() => setOpen(o=>!o)}
-                style={{
-                  display: "none",
-                  padding: 6, borderRadius: 7,
-                  background: "rgba(255,255,255,0.08)",
-                  border: "1px solid rgba(255,255,255,0.15)",
-                  color: "rgba(255,255,255,0.8)",
-                  cursor: "pointer",
-                  transition: "background 0.18s",
-                }}
                 id="hamburger-btn"
                 aria-label="Toggle menu"
                 aria-expanded={open}
                 aria-controls="mobile-drawer"
+                style={{
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 44, height: 44,
+                  borderRadius: 10,
+                  background: open ? "rgba(255,255,255,0.18)" : "rgba(255,255,255,0.08)",
+                  border: `1.5px solid ${open ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.2)"}`,
+                  color: "white",
+                  cursor: "pointer",
+                  transition: "all 0.2s ease",
+                  flexShrink: 0,
+                  boxShadow: open ? "0 2px 14px rgba(0,0,0,0.3)" : "none",
+                  padding: 0,
+                }}
               >
                 {open ? <CloseSVG/> : <MenuSVG/>}
               </button>
@@ -392,7 +474,8 @@ export default function Navbar() {
             {NAV_LINKS.map((link, i) => (
               <NavLink
                 key={i}
-                label={link.mr}
+                label={link.label}
+                Icon={link.Icon}
                 active={active === i}
                 onClick={() => setActive(i)}
               />
@@ -468,7 +551,8 @@ export default function Navbar() {
             {NAV_LINKS.map((link, i) => (
               <DrawerLink
                 key={i}
-                label={link.mr}
+                label={link.label}
+                Icon={link.Icon}
                 active={active === i}
                 index={i}
                 onClick={() => { setActive(i); setOpen(false); }}
@@ -479,7 +563,8 @@ export default function Navbar() {
       </header>
 
       {/* ── Responsive: show hamburger, hide desktop contact/socials on small screens ── */}
-      <style>{`
+        <style>{`
+        #hamburger-btn { display: none; }
         @media (max-width: 767px) {
           #hamburger-btn { display: flex !important; }
           #desktop-nav   { display: none !important; }
@@ -490,17 +575,22 @@ export default function Navbar() {
           }
           #navbar-brand { gap: 8px !important; }
           #navbar-socials, #navbar-donate { display: none !important; }
+          #navbar-contact-center { display: none !important; }
           #mobile-socials { display: flex !important; }
-          #desktop-nav button { font-size: 1rem; }
         }
         @media (min-width: 768px) {
           #mobile-socials { display: none !important; }
+          #hamburger-btn  { display: none !important; }
         }
         @media (min-width: 768px) and (max-width: 960px) {
           #navbar-top-grid { gap: 8px !important; padding: 0 12px !important; }
           #navbar-contact-center { display: none !important; }
           #navbar-top-grid { grid-template-columns: minmax(0, 1fr) auto !important; }
           #desktop-nav button { padding-left: 10px !important; padding-right: 10px !important; }
+        }
+        @keyframes slideDown {
+          from { opacity:0; transform:translateY(-6px); }
+          to   { opacity:1; transform:translateY(0); }
         }
         @keyframes drawerIn {
           from { opacity:0; transform:translateX(-8px); }
@@ -513,9 +603,6 @@ export default function Navbar() {
         }
         header * { box-sizing: border-box; }
         header a  { text-decoration: none; }
-        @media (max-width: 767px) {
-          #navbar-contact-center { display: none !important; }
-        }
         @media (max-width: 380px) {
           #navbar-brand-subtitle { display: block !important; color: rgba(255,255,255,0.75) !important; font-size: 0.68rem !important; }
           #navbar-brand-title { font-size: 1.05rem !important; margin-bottom: 4px !important; }

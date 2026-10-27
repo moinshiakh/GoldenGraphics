@@ -6,6 +6,7 @@ import {
 } from "lucide-react";
 import Navbar from "./navbar";
 import Footer from "./footer";
+import { useLang } from "./useLang";
 
 // ─── Design tokens (Ministry of Labour / Govt India) ─────────────────────────
 const T = {
@@ -238,7 +239,7 @@ function CategoryButton({ cat, selected, onClick, lang, index }) {
 
 // ─── Main Page ────────────────────────────────────────────────────────────────
 export default function LabourService() {
-  const [lang, setLang]             = useState("mr");
+  const { lang, setLang } = useLang();
   const [langOpen, setLangOpen]     = useState(false);
   const [selected, setSelected]     = useState(CATEGORIES[0].id);
   const [workerKey, setWorkerKey]   = useState(0);
@@ -517,7 +518,7 @@ export default function LabourService() {
       <Footer/>
 
       {/* ── Language FAB ── */}
-      <div style={{ position:"fixed", bottom:24, right:24, zIndex:300 }}>
+      <div className="legacy-language-switcher" style={{ position:"fixed", bottom:24, right:24, zIndex:300 }}>
         {langOpen && (
           <div style={{
             position:"absolute", bottom:62, right:0,

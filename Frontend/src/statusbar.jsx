@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLang } from "./useLang";
 
 const stats = [
   {
@@ -13,6 +14,7 @@ const stats = [
     ),
     value: "5000+",
     label: "समुदायाचे सदस्य",
+    labelEn: "Community members",
   },
   {
     icon: (
@@ -24,6 +26,7 @@ const stats = [
     ),
     value: "1000+",
     label: "उपक्रम",
+    labelEn: "Initiatives",
   },
   {
     icon: (
@@ -39,6 +42,7 @@ const stats = [
     ),
     value: "250+",
     label: "गावांमध्ये सेवा",
+    labelEn: "Villages served",
   },
   {
     icon: (
@@ -50,6 +54,7 @@ const stats = [
     ),
     value: "50+",
     label: "अनुभवी कार्यकर्ते",
+    labelEn: "Experienced volunteers",
   },
   {
     icon: (
@@ -62,6 +67,7 @@ const stats = [
     ),
     value: "24/7",
     label: "आपली सेवा",
+    labelEn: "Our service",
   },
 ];
 
@@ -143,6 +149,7 @@ function Divider() {
 }
 
 export default function StatsBar() {
+  const { lang } = useLang();
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
 
@@ -181,7 +188,7 @@ export default function StatsBar() {
           <div className="flex flex-wrap md:flex-nowrap items-center justify-center md:justify-between py-4 px-2 md:px-4 gap-y-4">
             {stats.map((s, i) => (
               <div key={i} className="flex items-center">
-                <StatItem {...s} index={i} animate={visible} />
+                <StatItem {...s} label={lang === "en" ? s.labelEn : s.label} index={i} animate={visible} />
                 {i < stats.length - 1 && <Divider />}
               </div>
             ))}
